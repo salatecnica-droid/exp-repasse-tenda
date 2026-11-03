@@ -1,0 +1,1484 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Repasse Tenda · EXP BR</title>
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400..800&display=swap">
+<style>
+/* Layout: barra lateral escura fixa (marca + navegação) e conteúdo claro em páginas; cores da logo EXP (verde-limão e ciano) */
+:root{
+  --night:#121212; --night-2:#1E1E1B; --night-line:#2E2E2A; --night-ink:#F5F5F0; --night-muted:#9C9C94;
+  --paper:#F3F3EE; --card:#FFFFFF; --ink:#121212; --ink-2:#45453F; --muted:#77776F; --line:#E3E3DB; --line-2:#CFCFC6;
+  --lime:#DDDB00; --lime-ink:#5E6400; --cyan:#09A1E3; --cyan-ink:#0B78A8; --warn:#E8901C; --warn-bg:#FFF2DE;
+  --ep:#09A1E3; --ap:#B48CF0; --pb:#F2A33A; --ex:#DDDB00; --pl:#E58FB8; --rev:#C9C9C2; --lo:#3BAA63;
+  --font:'Sora',Arial,Helvetica,sans-serif;
+  --d-cli:#13A39A; --d-esg:#2E9E4F; --d-hid:#2D6DE3; --d-pis:#1590C8; --d-ele:#E06A00; --d-sbe:#B35300; --d-spda:#6D4FD8; --d-inc:#D62828; --d-elo:#C2187A; --d-fur:#6B6B66; --d-inf:#8A5A2B;
+  --vazio:#E9E9E2; --deco:#4A4A45;
+  --soft:#FAFAF7; --soft-2:#F1F1EB; --soft-3:#ECECE5; --grid:#E6E6DE; --chip-on:#121212; --chip-on-ink:#F5F5F0;
+  color-scheme:light;
+}
+/* Tema escuro: o branco vira cinza-escuro, o fundo vira um preto mais claro que a barra lateral */
+:root[data-theme="dark"]{
+  --paper:#1B1B19; --card:#272724; --ink:#F2F2EC; --ink-2:#CDCDC5; --muted:#9A9A92; --line:#363632; --line-2:#4B4B45;
+  --soft:#2D2D2A; --soft-2:#31312D; --soft-3:#3A3A35; --grid:#33332F; --lime-ink:#DDDB00; --cyan-ink:#5CC6F2; --warn-bg:#3A2E1A;
+  --chip-on:#F2F2EC; --chip-on-ink:#121212; --vazio:#3A3A35; --deco:#2F2F2B;
+  --d-cli:#2CC7BB; --d-esg:#45C26C; --d-hid:#5B8FF2; --d-pis:#3FB0E6; --d-ele:#FF8A2B; --d-sbe:#E0893D; --d-spda:#9A82F5; --d-inc:#F05454; --d-elo:#EC5FB0; --d-fur:#C2C2B8; --d-inf:#D9A066;
+  color-scheme:dark;
+}
+.so-escuro{display:none!important}
+/* Início: atenção e fluxo simplificado */
+.ola{font-size:14px;color:var(--ink-2)}
+.ola b{color:var(--ink)}
+.ola a{color:var(--muted);font-weight:400;margin-left:4px;text-underline-offset:3px}
+.ola a:hover{color:var(--ink-2)}
+.quem{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:18px 28px;align-items:center;padding:22px 24px;background:linear-gradient(90deg,rgba(221,219,0,.22),rgba(221,219,0,0) 70%),var(--card)}
+.quem p{font-size:13.5px;color:var(--ink-2);margin-top:6px;line-height:1.5}
+.quem-op{display:flex;flex-wrap:wrap;gap:8px}
+.quem-op button{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-2);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 14px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.quem-op button .fold{width:16px;height:16px;color:#B8BF12}
+.quem-op button:hover{border-color:var(--ink)}
+.quem-op button.todos{border-style:dashed;color:var(--ink-2)}
+.mini-e.atr .md b,.mini-e.atr .md small{color:#D9731A}
+.mini-e .mn small i{font-style:normal;color:var(--muted)}
+@container (max-width:900px){ .quem{grid-template-columns:1fr} }
+.duas-i3{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px;align-items:start}
+.at-l{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
+.at-l:last-of-type{border-bottom:0}
+.at-l > span:nth-child(2){flex:1;min-width:0}
+.at-l b{display:block;font-size:14px}
+.at-l small{display:block;font-size:12.5px;color:var(--muted)}
+.at-l svg:last-child{width:16px;height:16px;color:var(--line-2)}
+.at-l:hover b{text-decoration:underline;text-decoration-color:var(--cyan);text-underline-offset:3px}
+.at-i{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,#F28C28 16%,transparent);color:#D9731A;flex:none}
+.at-i svg{width:18px;height:18px}
+.at-ok{display:flex;align-items:center;gap:10px;font-weight:600;color:var(--ink-2)}
+.at-ok svg{width:20px;height:20px;color:#3BAA63}
+.fluxo-s{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.fluxo-s li{display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:12px;background:var(--soft);border:1px solid var(--line)}
+.fluxo-s b{font-size:13px}
+.fluxo-s small{font-size:12px;color:var(--muted);line-height:1.4}
+.st-s{list-style:none;display:flex;flex-direction:column;gap:8px;padding-top:6px}
+.st-s li{display:grid;grid-template-columns:118px minmax(0,1fr);align-items:center;gap:12px;font-size:13px;color:var(--ink-2)}
+.st-s li .pill{width:100%}
+/* Assistente */
+#assist{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;flex-direction:column-reverse;align-items:flex-end;gap:10px}
+.as-btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:11px 18px 11px 14px;font:inherit;font-size:13.5px;font-weight:700;color:#121212;background:linear-gradient(90deg,#DDDB00,#E6EB8F);box-shadow:0 8px 24px rgba(0,0,0,.22);cursor:pointer}
+.as-btn svg{width:18px;height:18px}
+.as-painel{width:min(380px,calc(100vw - 36px));max-height:min(560px,calc(100dvh - 110px));display:flex;flex-direction:column;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 48px rgba(0,0,0,.25);overflow:hidden}
+.as-painel[hidden]{display:none}
+.as-painel header{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--night);color:var(--night-ink)}
+.as-painel header div{flex:1}
+.as-painel header b{display:block;font-size:14px}
+.as-painel header small{display:block;font-size:11.5px;color:var(--night-muted)}
+.as-ico{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:#DDDB00;color:#121212}
+.as-ico svg{width:17px;height:17px}
+.as-x{border:0;background:none;color:var(--night-ink);font-size:22px;line-height:1;cursor:pointer;padding:2px 6px}
+.as-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;font-size:13px;line-height:1.5}
+.as-m{max-width:92%;padding:9px 12px;border-radius:12px}
+.as-m.bot{background:var(--soft-2);align-self:flex-start;border-bottom-left-radius:4px}
+.as-m.eu{background:#09A1E3;color:#121212;align-self:flex-end;border-bottom-right-radius:4px;font-weight:600}
+.as-m a{color:var(--cyan-ink);font-weight:700}
+.as-ops{display:flex;flex-wrap:wrap;gap:6px;align-self:stretch}
+.as-ops button{border:1px solid var(--line-2);background:linear-gradient(90deg,rgba(221,219,0,.18),rgba(221,219,0,0) 80%),var(--card);border-radius:999px;padding:6px 12px;font:inherit;font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left}
+.as-ops button:hover{border-color:var(--ink)}
+.as-sug{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px}
+.as-sug button{border:1px solid var(--line-2);background:none;border-radius:999px;padding:5px 10px;font:inherit;font-size:12px;font-weight:600;color:var(--ink-2);cursor:pointer}
+.as-sug button:hover{border-color:var(--ink);color:var(--ink)}
+.as-form{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
+.as-form input{flex:1;min-width:0;font:inherit;font-size:13.5px;border:1px solid var(--line-2);border-radius:10px;padding:9px 12px;background:var(--soft);color:var(--ink)}
+.as-form button{border:0;border-radius:10px;width:40px;background:#121212;color:#DDDB00;cursor:pointer;display:grid;place-items:center}
+@container (max-width:900px){ .duas-i3,.fluxo-s{grid-template-columns:1fr} }
+
+html{scrollbar-color:#DDDB00 #1E1E1E}
+html::-webkit-scrollbar{width:10px}
+html::-webkit-scrollbar-track{background:#1E1E1E}
+html::-webkit-scrollbar-thumb{background:#DDDB00;border-radius:8px;border:2px solid #1E1E1E}
+.gn-scroll,.as-msgs{scrollbar-color:var(--line-2) transparent;scrollbar-width:thin}
+.nav{scrollbar-color:#DDDB00 #1E1E1E!important}
+/* X treliçado da marca, sóbrio, na lateral do Início */
+/* X treliçado da marca: só a parte esquerda aparece, numa faixa na borda direita da página inteira (Início) */
+.main{position:relative}
+.main > .content{position:relative;z-index:1}
+.deco-x{position:absolute;right:0;z-index:0;pointer-events:none;background:var(--deco);-webkit-mask:url(x-deco.png) 0 0/auto 100% no-repeat;mask:url(x-deco.png) 0 0/auto 100% no-repeat}
+@media (max-width:960px){.deco-x{display:none}}
+:root[data-theme="dark"] .pill.cor,:root[data-theme="dark"] .gh-s .sg,:root[data-theme="dark"] .gp-b .sg{color:#121212!important}
+:root[data-theme="dark"] .so-claro{display:none!important}
+:root[data-theme="dark"] .so-escuro{display:block!important}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- Estrutura ---------- */
+.app{display:grid;grid-template-columns:296px minmax(0,1fr);min-height:100%}
+.side{position:sticky;top:0;height:100dvh;background:var(--night);color:var(--night-ink);display:flex;flex-direction:column;overflow:hidden}
+.side .brand{padding:26px 22px 18px;display:flex;flex-direction:column;gap:14px;border-bottom:1px solid var(--night-line)}
+.side .brand img{width:190px;height:auto;display:block}
+.side .brand p{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--night-muted)}
+.side .brand p b{color:var(--night-ink);font-weight:700;letter-spacing:.06em}
+.tools{padding:16px 16px 6px;display:flex;flex-direction:column;gap:10px}
+.search{position:relative;display:block}
+.search input{width:100%;background:var(--night-2);border:1px solid var(--night-line);border-radius:10px;padding:9px 12px 9px 34px;font-size:13px;color:var(--night-ink);outline:none}
+.search input::placeholder{color:var(--night-muted)}
+.search input:focus{border-color:var(--cyan)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--night-muted)}
+.chips{display:flex;gap:4px;flex-wrap:wrap}
+.chips button{border:1px solid var(--night-line);background:none;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:600;color:var(--night-muted);cursor:pointer;display:flex;align-items:center;gap:5px}
+.chips button i{width:8px;height:8px;border-radius:50%;display:block}
+.chips button:hover{color:var(--night-ink);background:var(--night-2)}
+.chips button[aria-pressed="true"]{background:var(--night-ink);color:var(--night);border-color:var(--night-ink)}
+.nav{flex:1;overflow-y:auto;padding:4px 0 16px;scrollbar-width:thin;scrollbar-color:#3A3A36 transparent;scrollbar-gutter:stable both-edges} /* espaço da barra de rolagem sempre reservado: nada se mexe quando ela aparece */
+.nav h3{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--night-muted);font-weight:600;padding:16px 12px 6px;display:flex;justify-content:space-between}
+.nav ul{list-style:none;display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:10px;text-decoration:none;color:var(--night-ink);font-size:13.5px;font-weight:600;position:relative}
+.nav a:hover{background:var(--night-2)}
+.nav a[aria-current="page"]{background:#2A2A25}
+.nav a[aria-current="page"]::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:2px;background:var(--lime)}
+.nav .nm{flex:1;min-width:0}
+.nav .nm span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav .nm small{display:block;font-size:11px;font-weight:500;color:var(--night-muted)}
+.nav .tag{font-style:normal;font-size:10px;font-weight:700;color:var(--night);border-radius:999px;padding:2px 7px;min-width:30px;text-align:center;flex:none}
+.nav .ico{width:18px;height:18px;flex:none;color:var(--night-muted)}
+.nav .empty{color:var(--night-muted);font-size:12.5px;padding:6px 12px}
+.side .foot{border-top:1px solid var(--night-line);padding:12px 22px;font-size:11.5px;color:var(--night-muted);display:flex;align-items:center;gap:8px}
+.dot{width:7px;height:7px;border-radius:50%;background:#6E6E68;flex:none}
+.dot.vivo{background:var(--lime);box-shadow:0 0 0 3px rgba(221,219,0,.2)}
+.dot.exemplo{background:var(--warn)}
+
+.main{min-width:0;display:flex;flex-direction:column}
+.mtop{display:none}
+.abas-m{display:none}
+.content{container-type:inline-size;width:100%;max-width:1240px;margin:0 auto;padding-inline:40px;padding-block:32px 64px;display:flex;flex-direction:column;gap:28px}
+.view{display:flex;flex-direction:column;gap:28px}
+@media (prefers-reduced-motion:no-preference){.view{animation:entra .35s ease both}}
+@keyframes entra{from{opacity:.001;transform:translateY(6px)}to{opacity:1;transform:none}}
+.scrim{display:none}
+
+/* ---------- Peças comuns ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px}
+.sec-h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px 32px;flex-wrap:wrap}
+h2.t{font-size:22px;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan-ink)}
+.pill{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;border-radius:999px;font-size:12.5px;font-weight:600;padding:3px 12px;line-height:1.35}
+.pill.o{border:1.5px solid var(--line-2);color:var(--ink-2);padding:1.5px 10.5px}
+.etq{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;font-size:11.5px;font-weight:700;padding:2px 0;width:44px;color:#121212}
+.dash{color:var(--muted)}
+
+/* ---------- Visão geral ---------- */
+.hero{position:relative;overflow:hidden;border-radius:22px;background:var(--cyan) url(hero.jpg) center/cover;color:var(--ink);padding:44px 44px 40px;padding-right:max(44px,40%);display:flex;flex-direction:column;align-items:flex-start;gap:22px;min-height:300px}
+.hero > *{position:relative;z-index:1}
+.hero .x{position:absolute;z-index:0;right:-4%;top:50%;transform:translateY(-50%);height:150%;width:auto;max-width:none;pointer-events:none}
+.hero .eyebrow{color:var(--ink)}
+.hero h1{font-size:clamp(40px,7cqi,76px);font-weight:800;line-height:1;letter-spacing:-.02em;margin-top:10px}
+.hero p.sub{font-size:clamp(20px,2.6cqi,28px);font-weight:500;margin-top:14px;letter-spacing:-.01em}
+.hero p.sub b{color:#FFFFFF;font-weight:700}
+.stamp{display:inline-flex;flex-wrap:wrap;align-items:center;gap:10px;background:var(--night);color:var(--night-ink);border-radius:999px;padding:9px 16px;font-size:13px;font-weight:600;position:relative;z-index:1}
+.stamp small{color:var(--night-muted);font-weight:500}
+.etapas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.etapa-t{all:unset;box-sizing:border-box;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
+.etapa-t::before{content:"";position:absolute;left:0;top:0;right:0;height:5px;background:var(--c)}
+.etapa-t:hover{border-color:var(--line-2)}
+.etapa-t[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.etapa-t:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.etapa-t b{font-size:30px;font-weight:800;line-height:1}
+.etapa-t span{font-size:13px;color:var(--ink-2);font-weight:600}
+.etapa-t small{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--muted)}
+.legenda{display:grid;grid-template-columns:repeat(3,auto);gap:6px 22px;align-items:center;justify-content:end}
+.legenda p{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-2)}
+.legenda i{width:14px;height:14px;border-radius:4px;display:block;flex:none}
+.legenda .lt{grid-column:1/-1;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:right}
+.tabela{padding:6px 24px}
+.linha{display:grid;grid-template-columns:minmax(140px,1.5fr) 70px 136px repeat(var(--nleg,3),minmax(104px,1fr)) 100px 70px 16px;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
+.linha:last-child{border-bottom:0}
+a.linha{cursor:pointer;border-radius:0}
+a.linha:hover .pj b{text-decoration:underline;text-decoration-color:var(--cyan);text-underline-offset:4px}
+.linha.cab{font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.02em;padding:14px 0 10px;border-bottom:1.5px solid var(--ink)}
+.linha.cab span{line-height:1.25}
+.linha.cab em{display:block;font-style:normal;color:var(--cyan-ink)}
+.linha > *{min-width:0}
+.linha .cel .pill{white-space:normal;max-width:100%;text-align:center;line-height:1.2;padding:4px 9px;font-size:11.5px}
+.c{text-align:center;justify-self:center}
+.pj b{font-size:15px;font-weight:700;display:block;line-height:1.3}
+.sep{color:var(--cyan);margin:0 .3em}
+.barra{display:flex;align-items:center;justify-content:center;gap:10px;justify-self:stretch}
+.barra .b{width:96px;height:10px;border-radius:999px;overflow:hidden;display:flex;background:var(--soft-3)}
+.barra strong{font-size:13.5px;font-weight:700;min-width:28px;text-align:left}
+.chev{color:var(--line-2)}
+a.linha:hover .chev{color:var(--ink)}
+.lbl{display:none}
+.nota{font-size:12.5px;color:var(--ink-2)}
+.nota b{color:#D62828}
+.vazio{padding:28px 0;color:var(--muted);font-size:14px}
+@container (max-width:980px){ /* tabela vira cartões antes de apertar as 3 colunas de legalização */
+  .tabela{padding:4px 16px}
+  .linha.cab{display:none}
+  .linha{grid-template-columns:1fr 1fr;gap:10px 16px;padding:16px 0}
+  .linha .pj{grid-column:1/-1}
+  .linha .c,.barra{justify-self:start;text-align:left}
+  .linha .chev{display:none}
+  .lbl{display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .cel{display:flex;flex-direction:column;align-items:flex-start}
+}
+@container (max-width:900px){
+  .tabela{padding:4px 16px}
+  .linha.cab{display:none}
+  .linha{grid-template-columns:1fr 1fr;gap:10px 16px;padding:16px 0}
+  .linha .pj{grid-column:1/-1}
+  .linha .c,.barra{justify-self:start;text-align:left}
+  .linha .chev{display:none}
+  .lbl{display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .cel{display:flex;flex-direction:column;align-items:flex-start}
+  .etapas{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .legenda{grid-template-columns:repeat(2,auto);justify-content:start}
+  .legenda .lt{text-align:left}
+  .hero{padding:28px 24px 26px;min-height:0}
+  .hero .x{right:-38%;height:120%;top:-10%;transform:none;opacity:.55}
+  .stamp{border-radius:14px}
+}
+
+/* ---------- Projeto ---------- */
+.trilha{font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:center}
+.trilha a{color:var(--ink-2);text-decoration:none;font-weight:600}
+.trilha a:hover{text-decoration:underline}
+.cabeca{display:flex;flex-direction:column;gap:14px}
+.cabeca h1{font-size:clamp(30px,5cqi,48px);font-weight:800;line-height:1.08;letter-spacing:-.015em;text-wrap:balance}
+.cabeca h1 .sep{margin:0 .22em}
+.meta{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:13.5px;color:var(--ink-2)}
+.meta span{display:flex;align-items:center;gap:8px}
+.fluxo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding:20px 24px}
+.passo{position:relative;display:flex;flex-direction:column;gap:10px;padding-right:12px}
+.passo .bola{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;border:2px solid var(--line-2);background:var(--card);color:var(--muted);position:relative;z-index:1}
+.passo::after{content:"";position:absolute;left:30px;right:0;top:14px;height:2px;background:var(--line)}
+.passo:last-child::after{display:none}
+.passo b{font-size:14px;font-weight:700;color:var(--muted)}
+.passo small{font-size:11.5px;color:var(--muted);font-weight:600}
+.passo.feito .bola{background:var(--ink);border-color:var(--ink);color:var(--card)}
+.passo.feito::after{background:var(--ink)}
+.passo.feito b{color:var(--ink-2)}
+.passo.atual .bola{background:var(--lime);border-color:var(--lime);color:#121212;box-shadow:0 0 0 5px rgba(221,219,0,.28)}
+.passo.atual b{color:var(--ink)}
+.passo.atual small{color:var(--lime-ink)}
+.duas{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:20px;align-items:start}
+.bloco{padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+.bloco > header{position:relative;padding-bottom:10px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.bloco > header::after{content:"";position:absolute;left:0;bottom:0;width:min(220px,50%);height:2px;border-radius:2px;background:linear-gradient(90deg,#DDDB00,rgba(221,219,0,0))}
+.bloco > header small{font-size:12.5px;color:var(--muted)}
+.disc{display:flex;flex-direction:column}
+.dl{display:grid;grid-template-columns:minmax(150px,1fr) 64px 124px 110px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.dl:last-child{border-bottom:0}
+.dl.cab{font-size:11.5px;font-weight:700;color:var(--muted);padding:0 0 8px;border-bottom:1.5px solid var(--ink)}
+.dl.cab .ent{font-size:11.5px;font-weight:700}
+.dn{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14.5px;min-width:0}
+.dn svg{flex:none}
+.dn span{min-width:0;line-height:1.25}
+.ent{font-size:13.5px;font-weight:600;text-align:center}
+.legetapas{font-size:11.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.legetapas b{color:var(--ink-2)}
+.leg{display:flex;flex-direction:column;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
+.leg:last-of-type{border-bottom:0;padding-bottom:4px}
+.leg .top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.leg .top b{font-size:15px;font-weight:700}
+.leg dl{display:flex;flex-direction:column;gap:2px}
+.leg dt{font-size:12px;color:var(--muted)}
+.leg dd{font-size:16px;font-weight:700}
+.leg .obs{font-size:11.5px;color:var(--muted)}
+.pend{padding:22px 24px;display:flex;flex-direction:column;gap:6px}
+.pend > header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px 24px;flex-wrap:wrap;padding-bottom:10px}
+.pend > header p{font-size:13px;color:var(--ink-2);margin-top:4px}
+.resumo{display:flex;gap:8px;flex-wrap:wrap}
+.grupo{display:grid;grid-template-columns:190px minmax(0,1fr);gap:16px;padding:14px 0 14px 16px;border-top:1px solid var(--line);position:relative}
+.grupo::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:2px;background:var(--c)}
+.grupo.alvo{background:linear-gradient(90deg,rgba(221,219,0,.10),transparent 60%);border-radius:12px;border-top-color:transparent}
+.grupo.alvo + .grupo{border-top-color:transparent}
+.grupo .gh{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.grupo .gh .sig{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;border-radius:999px;padding:3px 12px;background:var(--c);color:#121212}
+.grupo .gh b{font-size:14px;font-weight:700}
+.grupo .gh small{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime-ink)}
+.lista{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;align-content:start}
+.lista li{display:flex;align-items:center;gap:10px;border-radius:12px;padding:9px 12px;font-size:13.5px;border:1px solid var(--line);background:var(--soft);color:var(--muted);line-height:1.3}
+.lista li svg{flex:none}
+.lista li.p{background:var(--warn-bg);border-color:var(--warn);color:var(--ink);font-weight:700}
+.lista li.p em{margin-left:auto;font-style:normal;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9A5A00;padding-left:6px}
+.lista li.f{background:var(--card);color:var(--ink-2)}
+.liberado{display:flex;align-items:center;gap:12px;background:var(--night);color:var(--night-ink);border-radius:12px;padding:12px 16px;font-weight:600;font-size:14px;margin-top:8px}
+@container (max-width:760px){.grupo{grid-template-columns:1fr;gap:10px}.grupo .gh{flex-direction:row;flex-wrap:wrap;align-items:center}.lista{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}.lista li.p em{display:none}}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pager a{display:flex;flex-direction:column;gap:2px;padding:14px 18px;border-radius:14px;border:1px solid var(--line);background:var(--card);text-decoration:none}
+.pager a:hover{border-color:var(--ink)}
+.pager a small{font-size:11.5px;color:var(--muted);font-weight:600}
+.pager a b{font-size:14.5px}
+.pager a.prox{text-align:right;grid-column:2}
+@container (max-width:900px){
+  .duas{grid-template-columns:1fr}
+  .fluxo{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:18px;padding:18px}
+  .passo:nth-child(2)::after{display:none}
+  .dl{grid-template-columns:minmax(0,1fr) 52px 112px;row-gap:4px}
+  .dl.cab .ent,.dl .ent{grid-column:1/-1;text-align:left;font-size:12.5px;font-weight:500;color:var(--ink-2)}
+  .dl.cab .ent{display:none}
+  .dl .ent::before{content:"Próxima entrega: ";color:var(--muted)}
+  .pager{grid-template-columns:1fr}
+  .pager a.prox{grid-column:auto}
+}
+
+/* ---------- Sobre ---------- */
+.sobre{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:560px;background:var(--card)}
+.sobre::after{content:"";position:absolute;right:0;top:0;bottom:0;width:14px;background:var(--lime)}
+.sobre .arte{position:relative;overflow:hidden}
+.sobre .arte img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:var(--pos,right bottom)}
+.sobre .arte img.fundo{-webkit-mask-image:linear-gradient(90deg,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.35) 62%,transparent 92%);mask-image:linear-gradient(90deg,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.35) 62%,transparent 92%)}
+.sobre .arte img.predio{-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent 99%);mask-image:linear-gradient(90deg,#000 82%,transparent 99%)}
+.sobre .arte.trel img{inset:auto;left:-18%;top:50%;transform:translateY(-50%);height:118%;width:auto;object-fit:initial}
+@media (max-width:960px){.sobre .arte.trel img{left:50%;transform:translate(-50%,-50%);height:150%}}
+.sobre .txt{display:flex;flex-direction:column;justify-content:center;gap:28px;padding:48px 64px 48px 40px}
+.sobre .missao{position:relative;padding-left:28px;display:flex;flex-direction:column;gap:16px}
+.sobre .missao::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:2px;background:linear-gradient(180deg,var(--cyan),rgba(9,161,227,0))}
+.sobre h1{font-size:34px;font-weight:800}
+.sobre .missao p{font-size:21px;font-weight:700;line-height:1.4;max-width:28ch}
+.sobre .logo{width:min(320px,100%);height:auto}
+.sobre .site{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:15px;text-decoration:none;border-bottom:2px solid var(--lime);padding-bottom:2px;align-self:flex-start}
+@container (max-width:760px){
+  .sobre{grid-template-columns:1fr}
+  .sobre .arte{height:240px}
+  .sobre .txt{padding:32px 36px 40px 24px}
+}
+
+/* ---------- Pastas de analistas e próximas entregas ---------- */
+.graficos{display:flex;flex-direction:column;gap:14px}
+.g2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:stretch}
+.gcard{padding:22px 24px 18px;display:flex;flex-direction:column;gap:14px}
+.gt{font-size:15px;font-weight:700}
+.gsub{font-size:12.5px;color:var(--muted);margin-top:-10px}
+.gh{position:relative;display:flex;flex-direction:column;--rot:170px}
+.gh-grade{position:absolute;left:calc(var(--rot) + 14px);right:28px;top:0;bottom:22px;pointer-events:none}
+.gh-grade i{position:absolute;top:0;bottom:0;width:0;border-left:1px dashed var(--grid)}
+.gh-grade i:first-child{border-left:1.5px solid var(--line-2)}
+.gh-l{display:grid;grid-template-columns:var(--rot) minmax(0,1fr);gap:14px;align-items:center;padding:5px 0;text-decoration:none;color:inherit;position:relative}
+.gh-r{text-align:right;min-width:0}
+.gh-r b{display:block;font-size:12px;font-weight:600;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+a.gh-l:hover .gh-r b{color:var(--ink);text-decoration:underline;text-decoration-color:var(--cyan);text-underline-offset:3px}
+.gh-t{position:relative;display:block;height:20px;margin-right:28px}
+.gh-s .sg{display:flex;align-items:center;justify-content:center;overflow:hidden}
+.gh-s .sg span{font-size:10px;font-weight:700;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px}
+.gcab{display:flex;justify-content:space-between;align-items:baseline;gap:8px 16px;flex-wrap:wrap}
+.gproj .gh{--rot:110px}
+.gproj .gh-t{height:28px}
+.gproj .gh-s .sg span{font-size:11px}
+.gh-s{display:flex;gap:2px;height:100%;animation:cresce .6s cubic-bezier(.2,.7,.2,1) both;transform-origin:left}
+.gh-s .sg:first-child{border-radius:2px 0 0 2px}
+.gh-s .sg:last-child{border-radius:0 7px 7px 0}
+.gh-s .sg:only-child{border-radius:2px 7px 7px 2px}
+.gh-v{position:absolute;top:50%;transform:translateY(-50%);margin-left:8px;font-size:11.5px;font-weight:600;color:var(--muted)}
+.gh-x{padding-top:6px}
+.gh-x .gh-t{height:16px}
+.gh-x .gh-t span{position:absolute;transform:translateX(-50%);font-size:11px;color:var(--muted)}
+.sg{display:block;min-width:3px;font-style:normal;transition:opacity .15s,filter .15s}
+.sg:hover{filter:brightness(.88)}
+@keyframes cresce{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes sobe{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.gv{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;padding-top:18px}
+.gv-y{position:relative;height:220px}
+.gv-y span{position:absolute;right:0;transform:translateY(50%);font-size:11px;color:var(--muted)}
+.gv-area{position:relative;height:220px;display:flex;align-items:flex-end;gap:6px;border-bottom:1.5px solid var(--line-2)}
+.gv-grade{position:absolute;inset:0;pointer-events:none}
+.gv-grade i{position:absolute;left:0;right:0;height:0;border-top:1px dashed var(--grid)}
+.gv-c{position:relative;flex:1;min-width:0;height:100%;display:flex;align-items:flex-end;justify-content:center}
+.gv-b{position:relative;width:min(30px,70%);display:flex;flex-direction:column-reverse;gap:2px;animation:sobe .6s cubic-bezier(.2,.7,.2,1) both;transform-origin:bottom}
+.gv-b .sg{min-height:3px}
+.gv-b .sg:last-child{border-radius:7px 7px 0 0}
+.gv-v{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);padding-bottom:4px;font-size:11.5px;font-weight:600;color:var(--muted)}
+.gv-x{position:absolute;top:calc(100% + 8px);font-size:11px;font-weight:700;color:var(--ink-2);letter-spacing:.02em;cursor:default}
+.gv + .gleg{margin-top:26px}
+.gleg{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;font-size:12px;color:var(--ink-2)}
+.gleg span{display:inline-flex;align-items:center;gap:7px}
+.gleg i{width:10px;height:10px;border-radius:50%;display:block}
+.gleg2{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px}
+.gleg2 > b{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);min-width:100px}
+.gleg2 .gleg{justify-content:flex-start}
+.gp{display:grid;grid-template-columns:100px minmax(0,1fr);gap:10px 14px;align-items:center}
+.gp-r{font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.gp-b{display:flex;gap:2px;height:30px;animation:cresce .6s cubic-bezier(.2,.7,.2,1) both;transform-origin:left}
+.gp-b .sg{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:11px;font-weight:700}
+.gp-b .sg:first-child{border-radius:8px 0 0 8px}
+.gp-b .sg:last-child{border-radius:0 8px 8px 0}
+.gp-b .sg span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px}
+.gp-b.lg .sg span{font-weight:500}
+.gp-b.lg .sg span b{font-weight:800;margin-right:3px}
+.gtip{position:fixed;z-index:50;pointer-events:none;background:var(--night);color:var(--night-ink);font-size:12px;font-weight:600;padding:6px 10px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.gh-s,.gv-b,.gp-b{animation:none}}
+@container (max-width:900px){
+  .g2{grid-template-columns:1fr}
+  .gh,.gproj .gh{--rot:0px}
+  .gh-l{grid-template-columns:1fr;gap:4px;padding:6px 0}
+  .gh-r{text-align:left}
+  .gh-grade{left:0;top:22px}
+  .gh-x .gh-r{display:none}
+  .gp{grid-template-columns:1fr}
+}
+/* ---------- v2: abas, cabeçalho mínimo, início, gantt ---------- */
+.nav .abas{gap:4px;padding:2px 0 4px}
+.nav a.aba{padding:11px 14px;border-radius:12px;font-size:14px;font-weight:700;gap:12px}
+.nav a.aba .ico{width:19px;height:19px;color:var(--night-ink)}
+.nav a.aba{border-radius:12px 0 0 12px}
+.nav a.aba[aria-current="page"]{background:linear-gradient(90deg,#DDDB00 0%,#DDDB00 22%,rgba(221,219,0,.55) 52%,rgba(221,219,0,.12) 78%,rgba(221,219,0,0) 94%);color:#121212}
+.nav a.aba[aria-current="page"]:hover{background:linear-gradient(90deg,#DDDB00 0%,#DDDB00 22%,rgba(221,219,0,.55) 52%,rgba(221,219,0,.12) 78%,rgba(221,219,0,0) 94%)}
+.subabas a.aba[aria-current="page"]{background:linear-gradient(90deg,#DDDB00 0%,#DDDB00 42%,rgba(221,219,0,.55) 64%,rgba(221,219,0,.14) 80%,rgba(221,219,0,0) 90%);border-radius:12px 0 0 12px;color:#121212;border-color:transparent;box-shadow:none}
+.nav a.aba[aria-current="page"] .ico,.subabas a.aba[aria-current="page"] .ico{color:#121212}
+.nav a.aba[aria-current="page"]::before{display:none}
+.nav .sep-abas{height:1px;background:var(--night-line);margin:10px 12px 0}
+.ico-x{display:inline-block;flex:none;background:currentColor;-webkit-mask:url(ico-x.png) center/contain no-repeat;mask:url(ico-x.png) center/contain no-repeat}
+.cli.linha{border-color:var(--linha-cor,#6ECC01);color:var(--ink);font-weight:700;background:linear-gradient(90deg,color-mix(in srgb,var(--linha-cor,#6ECC01) 16%,transparent),transparent)}
+.subabas{display:flex;gap:16px;flex-wrap:wrap}
+.aba[aria-current="page"],.abas-m a[aria-current="page"]{background-origin:border-box!important;background-repeat:no-repeat!important}
+.tema{margin-left:auto;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--night-line);background:none;color:var(--night-ink);font:inherit;font-size:11.5px;font-weight:700;border-radius:999px;padding:4px 10px 4px 6px;cursor:pointer}
+.tema:hover{background:var(--night-2)}
+.tema .ico-tema{width:20px;height:20px}
+.tema.m{margin-left:0;padding:4px 6px}
+.tema.m .ico-tema{width:20px;height:20px}
+.subabas a.aba{display:inline-flex;align-items:center;gap:10px;padding:10px 18px 10px 14px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;color:var(--ink-2);border:1px solid var(--line);background:var(--card);min-width:190px}
+.subabas a.aba .ico{width:18px;height:18px}
+.subabas a.aba:hover{border-color:var(--line-2)}
+.subabas a.aba[aria-current="page"]{border-color:transparent}
+.cab-min{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:6px 0 4px}
+.cab-min h1{font-size:clamp(34px,5.2cqi,52px);font-weight:800;line-height:1.02;letter-spacing:-.02em;margin-top:4px}
+.cab-min .sub{font-size:clamp(17px,2cqi,21px);font-weight:500;color:var(--ink-2)}
+.cab-min .sub b,.boas .lead b{color:var(--cyan-ink)}
+.cab-min .stamp{margin-top:10px}
+.stamp.claro{background:var(--card);color:var(--ink-2);border:1px solid var(--line);padding:7px 14px;font-size:12.5px}
+.stamp.claro small{color:var(--muted)}
+/* Início */
+.inicio{gap:24px}
+.boas{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:18px 0 6px;max-width:860px}
+.boas .par{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.boas .par{gap:22px;margin-bottom:18px}
+.boas .par .lg-exp{height:64px;width:auto}
+.boas .lg-cli{display:flex;flex-direction:column;justify-content:space-between;height:64px;width:calc(56px * 480 / 199)} /* as duas logos empilhadas ocupam exatamente a altura da logo da EXP */
+.boas .lg-cli img{width:100%;height:auto;display:block}
+.lg-ini{display:grid;grid-template-columns:160px 110px minmax(0,1fr);align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.lg-ini:first-of-type{border-top:0}
+.lg-ini b{font-size:15px}.lg-ini-n{font-size:13px;color:var(--muted)}
+.lg-ini-s{display:flex;flex-wrap:wrap;gap:10px 18px}.lg-ini-s span{display:inline-flex;align-items:center;gap:8px}.lg-ini-s .num{font-size:15px}
+@media (max-width:700px){.lg-ini{grid-template-columns:1fr 1fr}.lg-ini-s{grid-column:1/-1}}
+.boas .lg-cli.um{display:block;width:auto;height:60px}.boas .lg-cli.um img{width:auto;height:100%}
+.boas .lead b.seu{color:var(--cyan-ink);font-weight:800}
+.boas .vezes{font-size:30px;font-weight:300;color:var(--muted)}
+.boas .cli-n{font-size:26px;font-weight:800;letter-spacing:-.01em}
+.boas .cli-n i{font-style:normal;color:var(--cyan);margin:0 .3em}
+.boas h1{font-size:clamp(38px,6cqi,64px);font-weight:800;line-height:1.02;letter-spacing:-.025em;text-wrap:balance}
+.boas h1 span{background:linear-gradient(90deg,#DDDB00,#DDDB00) 0 92%/100% .22em no-repeat}
+.boas .lead{font-size:17px;line-height:1.55;color:var(--ink-2);max-width:62ch}
+.kpis4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi-b{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:2px;position:relative;overflow:hidden}
+.kpi-b{background:linear-gradient(90deg,rgba(9,161,227,.13),rgba(9,161,227,0) 55%),var(--card)}
+.kpi-b::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cyan)}
+.kpi-b b{font-size:34px;font-weight:800;line-height:1.05}
+.kpi-b span{font-size:13.5px;font-weight:600;color:var(--ink-2)}
+.kpi-b small{font-size:12px;color:var(--muted)}
+.atalhos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.atalho{display:flex;align-items:center;gap:14px;padding:18px;border-radius:16px;background:var(--card);border:1px solid var(--line);text-decoration:none;color:inherit;transition:border-color .15s}
+.atalho:hover{border-color:var(--ink)}
+.atalho .ai{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#DDDB00,#E9EE8C);flex:none}
+.atalho .ai .ico{width:22px;height:22px;color:#121212}
+.atalho .at{flex:1;min-width:0}
+.atalho .at b{display:block;font-size:15.5px}
+.atalho .at small{display:block;font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:2px}
+.atalho .seta{color:var(--line-2)}
+.atalho:hover .seta{color:var(--ink)}
+.duas-i{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px;align-items:start}
+.ver{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:var(--ink-2);text-decoration:none}
+.ver:hover{color:var(--ink)}
+.mini-e{display:grid;grid-template-columns:118px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
+.mini-e:last-child{border-bottom:0}
+.mini-e .md b{display:block;font-size:15px}
+.mini-e .md small,.mini-e .mn small{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.mini-e .mn b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-e:hover .mn b{text-decoration:underline;text-decoration-color:var(--cyan);text-underline-offset:3px}
+.ana-l{display:flex;flex-direction:column}
+.ana-l a{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit;font-weight:700;font-size:14px}
+.ana-l a:last-child{border-bottom:0}
+.ana-l a .fold{width:18px;height:18px;color:#B8BF12}
+.ana-l a span{flex:1}
+.ana-l a em{font-style:normal;font-size:12px;color:var(--muted);font-weight:600}
+.ana-l a:hover span{text-decoration:underline;text-decoration-color:var(--cyan);text-underline-offset:3px}
+/* Gantt (sóbrio: um tom por situação; a etapa vai escrita na barra) */
+.gantt{display:flex;flex-direction:column;gap:12px;--gn-linha:var(--soft-3);--gn-fds:rgba(128,128,120,.07)}
+.gn-ctrl{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap}
+.gn-zoom{display:flex;background:var(--soft-2);border-radius:10px;padding:3px;gap:2px}
+.gn-zoom button,.gn-hoje{border:0;background:none;font:inherit;font-size:12.5px;font-weight:700;color:var(--ink-2);padding:6px 12px;border-radius:8px;cursor:pointer}
+.gn-zoom button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.gn-hoje{border:1px solid var(--line-2)}
+.gn-hoje:hover{border-color:var(--ink)}
+.gn-sel,.gn-chk{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.gn-sel select{font:inherit;font-weight:700;color:var(--ink);border:1px solid var(--line-2);border-radius:8px;padding:5px 8px;background:var(--card)}
+.gn-chk input{width:15px;height:15px;accent-color:#121212}
+.gn-leg{margin-left:auto;justify-content:flex-end}
+.gn-leg i{border-radius:3px!important}
+.lg-atual{background:linear-gradient(90deg,#E4E24A,#F2F1B0)}
+.lg-futura{background:var(--card);box-shadow:inset 0 0 0 1px var(--line-2)}
+.lg-feita{background:#09A1E3}
+.lg-atrasada{background:#E9A49D;box-shadow:inset 3px 0 0 #C2453B}
+.lg-hoje{width:2px!important;height:12px!important;background:#D93A3A}
+.gn-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;scrollbar-width:thin}
+.gn-area{position:relative;min-width:100%}
+.gn-cab{position:relative;height:46px;border-bottom:1px solid var(--line);background:var(--soft)}
+.gn-meses span{position:absolute;top:6px;padding-left:6px;font-size:11.5px;font-weight:700;color:var(--ink);text-transform:capitalize;border-left:1px solid var(--line-2);line-height:14px;white-space:nowrap}
+.gn-sem span{position:absolute;top:27px;padding-left:4px;font-size:10.5px;color:var(--muted);white-space:nowrap}
+.gn-corpo{position:relative;padding:8px 0 14px}
+.gn-row{position:relative;display:block;height:34px;text-decoration:none;color:inherit}
+.gn-b{position:absolute;top:5px;height:24px;border-radius:6px;font-style:normal}
+.gn-b.atual{background:linear-gradient(90deg,#E4E24A,#F2F1B0)}
+.gn-b.futura{background:var(--card);box-shadow:inset 0 0 0 1px var(--line-2)}
+.gn-b.feita{background:#09A1E3}
+.gn-b.atrasada{background:#E9A49D;box-shadow:inset 3px 0 0 #C2453B}
+.gn-txt{position:absolute;top:5px;height:24px;display:flex;align-items:center;gap:8px;white-space:nowrap;font-size:12px;color:var(--ink-2);pointer-events:none}
+.gn-txt b{font-weight:700;color:var(--ink)}
+.gn-txt em{font-style:normal;font-size:10px;font-weight:800;letter-spacing:.04em;border-radius:5px;padding:1px 6px;line-height:15px;color:#121212;background:var(--c)}
+.gn-txt span{font-weight:600;font-variant-numeric:tabular-nums}
+.gn-txt.atual,.gn-txt.atual b,.gn-txt.feita,.gn-txt.feita b,.gn-txt.atrasada,.gn-txt.atrasada b{color:#121212}
+.gn-txt.atual em,.gn-txt.feita em,.gn-txt.atrasada em{box-shadow:0 0 0 1.5px rgba(255,255,255,.7)}
+.gn-txt.atrasada span{color:#8E1F17;font-weight:800}
+.gn-txt.fora,.gn-txt.fora b{color:var(--ink)}
+.gn-txt.proj b{text-transform:uppercase;letter-spacing:.04em;font-size:11px}
+.gn-txt.fora span{color:var(--ink-2)}
+.gn-txt.fora em{box-shadow:none}
+.gn-txt.atrasada.fora span{color:#E0574C}
+a.gn-row:hover .gn-b{filter:brightness(.95)}
+a.gn-row:hover .gn-txt b{text-decoration:underline;text-decoration-color:var(--cyan);text-underline-offset:3px}
+.gn-hj{position:absolute;top:40px;bottom:0;width:2px;background:#D93A3A;z-index:2;pointer-events:none;border-radius:1px}
+.gn-hj::before{content:"";position:absolute;top:-4px;left:-3px;width:8px;height:8px;border-radius:50%;background:#D93A3A}
+@container (max-width:900px){ .gn-leg{margin-left:0;justify-content:flex-start} }
+@container (max-width:900px){
+  .kpis4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .atalhos,.duas-i{grid-template-columns:1fr}
+  .subabas a.aba{min-width:0;flex:1}
+}
+[hidden]{display:none!important}
+
+.pj small{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-top:2px}
+.pasta-h{display:flex;align-items:center;border-radius:10px}
+.pasta-h:hover{background:var(--night-2)}
+.pasta-h a{flex:1;min-width:0}
+.pasta-h a:hover{background:none}
+.pasta-h button{width:30px;height:30px;flex:none;border:0;background:none;color:var(--night-muted);cursor:pointer;border-radius:8px;display:grid;place-items:center;margin-right:4px}
+.pasta-h button:hover{color:var(--night-ink);background:#2A2A25}
+.pasta-h button svg{transition:transform .15s ease}
+.pasta.aberta > .pasta-h button svg{transform:rotate(90deg)}
+.pasta .fold{width:18px;height:18px;flex:none;color:var(--lime)}
+.nav .sub{margin:2px 0 6px 21px;padding-left:10px;border-left:1px solid var(--night-line)}
+.nav .sub a{padding:7px 10px;font-size:12.5px}
+.nav .cont{font-style:normal;font-size:10.5px;font-weight:700;color:var(--night-muted);flex:none}
+.cli{display:inline-flex;align-items:center;border-radius:6px;font-size:11px;font-weight:700;padding:1px 7px;border:1.5px solid var(--line-2);color:var(--ink-2);white-space:nowrap}
+.cli.alt{border-color:var(--cyan);color:var(--cyan-ink)}
+.demo{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;background:#FFF2DE;border:1px solid #F2C27A;color:#5C3A00;border-radius:14px;padding:10px 16px;font-size:13px}
+.demo label{display:flex;align-items:center;gap:8px;font-weight:600;margin-left:auto}
+.demo select{font:inherit;font-weight:600;border:1px solid #E0B46A;border-radius:8px;padding:5px 8px;background:#FFFFFF;color:var(--ink)}
+.lista-ent{display:flex;flex-direction:column}
+.dia{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:14px 0 6px;border-bottom:1.5px solid var(--ink)}
+.dia:first-child{padding-top:0}
+.dia.atraso{color:#B4541A;border-color:#B4541A}
+.ei{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) 56px 130px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
+.ei:hover .pjn b{text-decoration:underline;text-decoration-color:var(--cyan);text-underline-offset:3px}
+.ei .pjn{min-width:0;font-size:14px}
+.ei .pjn small{display:block;font-size:12px;color:var(--muted)}
+.ei > .c{justify-self:center}
+.cab-ana{display:flex;flex-direction:column;gap:12px}
+.cab-ana h1{font-size:clamp(30px,5cqi,48px);font-weight:800;line-height:1.08;letter-spacing:-.015em;display:flex;align-items:center;gap:14px}
+.cab-ana h1 svg{width:.8em;height:.8em;color:var(--cyan);flex:none}
+@container (max-width:900px){
+  .ei{grid-template-columns:1fr auto;row-gap:4px}
+  .ei .dn{order:0}.ei .etq{order:1;justify-self:end}
+  .ei .pjn{grid-column:1/-1;order:2}
+  .ei > .c:last-child{grid-column:1/-1;order:3;justify-self:start}
+  .demo label{margin-left:0}
+}
+
+/* ---------- Celular ---------- */
+@media (max-width:960px){
+  .abas-m{display:flex;gap:6px;padding:8px 12px;background:var(--night);position:sticky;top:58px;z-index:19;overflow-x:auto;scrollbar-width:none}
+  .abas-m a{display:flex;align-items:center;gap:7px;flex:1;justify-content:center;padding:8px 10px;border-radius:10px;color:var(--night-ink);text-decoration:none;font-size:13px;font-weight:700;white-space:nowrap}
+  .abas-m a .ico{width:16px;height:16px}
+  .abas-m a[aria-current="page"]{background:linear-gradient(90deg,#DDDB00 0%,#DDDB00 30%,rgba(221,219,0,.5) 60%,rgba(221,219,0,0) 96%);color:#121212}
+  .app{grid-template-columns:1fr}
+  .side{position:fixed;inset:0 auto 0 0;width:min(320px,86vw);z-index:30;transform:translateX(-102%);transition:transform .25s ease;padding-top:env(safe-area-inset-top,0px)}
+  .app.aberto .side{transform:none}
+  .app.aberto .scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:25}
+  .mtop{display:flex;position:sticky;top:0;z-index:20;align-items:center;gap:12px;background:var(--night);color:var(--night-ink);padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+  .mtop img{height:40px;width:auto}
+  .mtop span{flex:1;min-width:0;font-size:13px;font-weight:600;color:var(--night-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right}
+  .mtop button{width:38px;height:38px;border-radius:10px;border:1px solid var(--night-line);background:var(--night-2);display:grid;place-items:center;cursor:pointer;flex:none}
+  .content{padding-inline:16px;padding-block:20px 48px;gap:20px}
+}
+@media (prefers-reduced-motion:reduce){.side{transition:none}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<aside class="side" id="side" aria-label="Navegação">
+  <div class="brand"><img src="logo-exp-tagline-branco.png" alt="EXP BR · Projete com experts."><p>Repasse de projetos · <b>Tenda</b></p></div>
+  <div class="tools">
+    <label class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="q" type="search" placeholder="Buscar projeto…" aria-label="Buscar projeto…"></label>
+    <div class="chips" id="chips" role="group" aria-label="Filtrar por etapa global"></div>
+  </div>
+  <nav class="nav" id="nav"></nav>
+  <div class="foot"><span class="dot" id="dot"></span><span id="fonte">Carregando…</span><button class="tema" data-tema aria-label="Alternar tema claro e escuro"><svg class="ico-tema so-claro" viewBox="0 0 24 24" fill="none" stroke="#DDDB00" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.8v2.2M12 19v2.2M2.8 12H5M19 12h2.2M5.5 5.5l1.6 1.6M16.9 16.9l1.6 1.6M5.5 18.5l1.6-1.6M16.9 7.1l1.6-1.6"/></svg><svg class="ico-tema so-escuro" viewBox="0 0 24 24" fill="none" stroke="#09A1E3" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M15.5 3.6a8.6 8.6 0 1 0 5 13.6a7 7 0 0 1-5-13.6z"/></svg><span>Tema</span></button></div>
+</aside>
+<div class="scrim" id="scrim"></div>
+<div class="main">
+  <div class="mtop"><img src="logo-exp-tagline-branco.png" alt="EXP BR · Projete com experts."><span id="mtitulo"></span><button class="tema m" data-tema aria-label="Alternar tema claro e escuro"><svg class="ico-tema so-claro" viewBox="0 0 24 24" fill="none" stroke="#DDDB00" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.8v2.2M12 19v2.2M2.8 12H5M19 12h2.2M5.5 5.5l1.6 1.6M16.9 16.9l1.6 1.6M5.5 18.5l1.6-1.6M16.9 7.1l1.6-1.6"/></svg><svg class="ico-tema so-escuro" viewBox="0 0 24 24" fill="none" stroke="#09A1E3" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M15.5 3.6a8.6 8.6 0 1 0 5 13.6a7 7 0 0 1-5-13.6z"/></svg></button><button id="menuBtn" aria-label="Abrir menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
+  <nav class="abas-m" id="abasM" aria-label="Abas"></nav>
+  <i class="deco-x" id="decoX" hidden aria-hidden="true"></i>
+  <main class="content" id="conteudo"><p class="vazio">Carregando dados do Notion…</p></main>
+</div>
+</div>
+<script>
+// ====== Cliente deste site (o mesmo código serve a todos os clientes da EXP) ======
+const CFG = {"id": "tenda", "nome": "Tenda", "titulo": "Repasse Tenda", "busca": "Buscar projeto…", "clientes": ["Tenda"], "analistas": false, "siglas": {"EX": "PE"}, "etapas": {"EP": "Estudo preliminar", "PL": "Projeto legal", "EX": "Projeto executivo", "LO": "Liberado para obra"}, "checklist": {"grupoDe": {"AP": "EP"}, "siglas": {"EP": "EP", "PB": "PB", "EX": "PE"}, "nomes": {"EP": "Estudo preliminar", "PB": "Projeto básico", "EX": "Projeto executivo", "PL": "Projeto legal"}}, "logos": "<span class=\"lg-cli um\"><img src=\"logo-tenda.png\" alt=\"Tenda\"></span>", "corLinha": "#ED1D26", "linhas": [], "sobre": {"trelica": true}, "dna": "Tenda", "fluxo": ["EP", "PL", "EX", "LO"], "etapaAlias": {"AP": "EX", "PB": "EX", "PE": "EX", "LIBERADO": "LO", "LIBERADO PARA OBRA": "LO"}, "posEtapa": {"PL": 1, "LO": 4}, "soIncendioSoPL": true, "focoLegal": true};
+const COM_ANA = !!CFG.analistas;
+if (CFG.corLinha) document.documentElement.style.setProperty("--linha-cor", CFG.corLinha); // cor da etiqueta "Linha de produto" // com analistas: pastas por analista, "Quem está acessando?" e filtros por analista
+// ====== Ajustes fáceis ======
+const SITE_EXP = "https://www.expbrasil.com";
+const MISSAO = "Entregar previsibilidade técnica e financeira a construtoras e incorporadoras, com projetos de arquitetura e sistemas prediais coordenados em BIM."; // Brandbook EXP 2026
+const ATUALIZAR_A_CADA_MIN = 5;
+// Dados de exemplo (dos prints do Notion), usados só quando o site não consegue falar com o Notion
+const EXEMPLO = {"fonte": "exemplo", "atualizado": "2026-11-03T20:30:00.000Z", "hoje": "2026-11-03", "clientes": ["Tenda"], "analistas": [], "opcoesPendencias": ["Liberado", "Proj Arquitetura", "Diretrizes", "Documentos", "IFC Arquitetura", "Proj Estrutura", "Proj Ambientação", "Proj Luminotécnico", "Altura dos forros", "Proj Paisagismo", "Validação da etapa anterior"], "projetos": [{"id": "t0", "titulo": "22111 - Tenda [VIDA BOTÂNICA]", "codigo": "22111", "js": null, "nome": "VIDA BOTÂNICA", "cliente": "Tenda", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-11-09", "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": false}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "PL", "inicio": "2026-10-06", "fim": "2026-12-03"}], "disciplinas": [{"sigla": "INC", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-11-09", "inicio": "2026-10-06", "fim": "2026-12-03"}], "legal": [{"sigla": "INC", "status": "PROTOCOLADO", "prazo": null, "retorno": "2026-11-16"}]}, {"id": "t1", "titulo": "22112 - Tenda [PAÇO DAS ÁGUAS]", "codigo": "22112", "js": null, "nome": "PAÇO DAS ÁGUAS", "cliente": "Tenda", "etapa": "REV", "status": "AGUARDANDO", "entrega": "2026-11-15", "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": false}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "REV", "inicio": "2026-09-25", "fim": "2026-11-29"}], "disciplinas": [{"sigla": "INC", "etapa": "REV", "status": "AGUARDANDO", "entrega": "2026-11-15", "inicio": "2026-09-25", "fim": "2026-11-29"}], "legal": [{"sigla": "INC", "status": "EM ANÁLISE", "prazo": null, "retorno": "2026-11-12"}]}, {"id": "t2", "titulo": "23141 - Tenda [PAÇO DAS ÁGUAS II]", "codigo": "23141", "js": null, "nome": "PAÇO DAS ÁGUAS II", "cliente": "Tenda", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-10-31", "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": false}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "PL", "inicio": "2026-09-25", "fim": "2026-11-29"}], "disciplinas": [{"sigla": "INC", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-10-31", "inicio": "2026-09-25", "fim": "2026-11-29"}], "legal": [{"sigla": "INC", "status": "EM DESENVOLVIMENTO", "prazo": null, "retorno": null}]}, {"id": "t3", "titulo": "23143 - Tenda [VISTA DEL SOL]", "codigo": "23143", "js": null, "nome": "VISTA DEL SOL", "cliente": "Tenda", "etapa": "REV", "status": "AGUARDANDO", "entrega": "2026-11-12", "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": false}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "REV", "inicio": "2026-10-07", "fim": "2026-11-13"}], "disciplinas": [{"sigla": "INC", "etapa": "REV", "status": "AGUARDANDO", "entrega": "2026-11-12", "inicio": "2026-10-07", "fim": "2026-11-13"}], "legal": [{"sigla": "INC", "status": "PROTOCOLADO", "prazo": null, "retorno": "2026-11-20"}]}, {"id": "t4", "titulo": "24201 - Tenda [MESSEJANA]", "codigo": "24201", "js": null, "nome": "MESSEJANA", "cliente": "Tenda", "etapa": "PL", "status": "POSTADO", "entrega": null, "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": true}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "PL", "inicio": "2026-10-02", "fim": "2026-11-29"}], "disciplinas": [{"sigla": "INC", "etapa": "PL", "status": "POSTADO", "entrega": null, "inicio": "2026-10-02", "fim": "2026-11-29"}], "legal": [{"sigla": "INC", "status": "APROVADO", "prazo": null, "retorno": null}]}, {"id": "t5", "titulo": "24202 - Tenda [RESERVA DAS GRAÇAS]", "codigo": "24202", "js": null, "nome": "RESERVA DAS GRAÇAS", "cliente": "Tenda", "etapa": "REV", "status": "AGUARDANDO", "entrega": "2026-11-23", "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": false}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "REV", "inicio": "2026-10-12", "fim": "2026-11-08"}], "disciplinas": [{"sigla": "INC", "etapa": "REV", "status": "AGUARDANDO", "entrega": "2026-11-23", "inicio": "2026-10-12", "fim": "2026-11-08"}], "legal": [{"sigla": "INC", "status": "EM ANÁLISE", "prazo": null, "retorno": "2026-11-22"}]}, {"id": "t6", "titulo": "24204 - Tenda [SOLAR DOS VENTOS]", "codigo": "24204", "js": null, "nome": "SOLAR DOS VENTOS", "cliente": "Tenda", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-11-07", "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": false}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "PL", "inicio": "2026-09-27", "fim": "2026-12-02"}], "disciplinas": [{"sigla": "INC", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-11-07", "inicio": "2026-09-27", "fim": "2026-12-02"}], "legal": [{"sigla": "INC", "status": "AGUARDANDO PROTOCOLAR", "prazo": null, "retorno": null}]}, {"id": "t7", "titulo": "24206 - Tenda [MESSEJANA II]", "codigo": "24206", "js": null, "nome": "MESSEJANA II", "cliente": "Tenda", "etapa": "PL", "status": "POSTADO", "entrega": null, "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": true}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "PL", "inicio": "2026-10-12", "fim": "2026-10-30"}], "disciplinas": [{"sigla": "INC", "etapa": "PL", "status": "POSTADO", "entrega": null, "inicio": "2026-10-12", "fim": "2026-10-30"}], "legal": [{"sigla": "INC", "status": "APROVADO", "prazo": null, "retorno": null}]}, {"id": "t8", "titulo": "24207 - Tenda [PARQUE BOUGAINVILLE]", "codigo": "24207", "js": null, "nome": "PARQUE BOUGAINVILLE", "cliente": "Tenda", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-11-05", "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": false}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "PL", "inicio": "2026-10-19", "fim": "2026-11-01"}], "disciplinas": [{"sigla": "INC", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-11-05", "inicio": "2026-10-19", "fim": "2026-11-01"}], "legal": [{"sigla": "INC", "status": "EM DESENVOLVIMENTO", "prazo": null, "retorno": null}]}, {"id": "t9", "titulo": "24209 - Tenda [FAROL DO MUCURIPE]", "codigo": "24209", "js": null, "nome": "FAROL DO MUCURIPE", "cliente": "Tenda", "etapa": "PL", "status": "POSTADO", "entrega": null, "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": true}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "PL", "inicio": "2026-10-15", "fim": "2026-10-31"}], "disciplinas": [{"sigla": "INC", "etapa": "PL", "status": "POSTADO", "entrega": null, "inicio": "2026-10-15", "fim": "2026-10-31"}], "legal": [{"sigla": "INC", "status": "APROVADO", "prazo": null, "retorno": null}]}, {"id": "t10", "titulo": "25271 - Tenda [GREEN VILLAGE 1]", "codigo": "25271", "js": null, "nome": "GREEN VILLAGE 1", "cliente": "Tenda", "etapa": "REV", "status": "AGUARDANDO", "entrega": "2026-11-12", "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": false}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "REV", "inicio": "2026-10-09", "fim": "2026-11-23"}], "disciplinas": [{"sigla": "INC", "etapa": "REV", "status": "AGUARDANDO", "entrega": "2026-11-12", "inicio": "2026-10-09", "fim": "2026-11-23"}], "legal": [{"sigla": "INC", "status": "PROTOCOLADO", "prazo": null, "retorno": "2026-12-05"}]}, {"id": "t11", "titulo": "25275 - Tenda [VILA LISBOA]", "codigo": "25275", "js": null, "nome": "VILA LISBOA", "cliente": "Tenda", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-11-18", "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": false}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "PL", "inicio": "2026-10-01", "fim": "2026-11-27"}], "disciplinas": [{"sigla": "INC", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-11-18", "inicio": "2026-10-01", "fim": "2026-11-27"}], "legal": [{"sigla": "INC", "status": "EM DESENVOLVIMENTO", "prazo": null, "retorno": null}]}, {"id": "t12", "titulo": "25279 - Tenda [ESSENCE MARACANAÚ 1]", "codigo": "25279", "js": null, "nome": "ESSENCE MARACANAÚ 1", "cliente": "Tenda", "etapa": "PL", "status": "PARADO", "entrega": null, "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": false}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "PL", "inicio": "2026-09-24", "fim": "2026-11-07"}], "disciplinas": [{"sigla": "INC", "etapa": "PL", "status": "PARADO", "entrega": null, "inicio": "2026-09-24", "fim": "2026-11-07"}], "legal": [{"sigla": "INC", "status": "NÃO INICIADO", "prazo": null, "retorno": null}]}, {"id": "t13", "titulo": "252711 - Tenda [UNA SONATA]", "codigo": "252711", "js": null, "nome": "UNA SONATA", "cliente": "Tenda", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-11-15", "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": false}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "PL", "inicio": "2026-10-21", "fim": "2026-11-01"}], "disciplinas": [{"sigla": "INC", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-11-15", "inicio": "2026-10-21", "fim": "2026-11-01"}], "legal": [{"sigla": "INC", "status": "EM DESENVOLVIMENTO", "prazo": null, "retorno": null}]}, {"id": "t14", "titulo": "264201 - Tenda [SENA PARC]", "codigo": "264201", "js": null, "nome": "SENA PARC", "cliente": "Tenda", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-11-07", "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": false}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "PL", "inicio": "2026-10-09", "fim": "2026-11-12"}], "disciplinas": [{"sigla": "INC", "etapa": "PL", "status": "EM PRODUÇÃO", "entrega": "2026-11-07", "inicio": "2026-10-09", "fim": "2026-11-12"}], "legal": [{"sigla": "INC", "status": "AGUARDANDO", "prazo": null, "retorno": null}]}, {"id": "t15", "titulo": "264303 - Tenda [IDEALLE PRIME]", "codigo": "264303", "js": null, "nome": "IDEALLE PRIME", "cliente": "Tenda", "etapa": "EP", "status": "EM PRODUÇÃO", "entrega": "2026-11-12", "pendencias": [], "requisitos": [{"etapa": "PL", "item": "Documentos", "ok": false}, {"etapa": "EP", "item": "Arquitetura", "ok": false}], "linha": null, "cronograma": [{"etapa": "EP", "inicio": "2026-09-24", "fim": "2026-11-26"}], "disciplinas": [{"sigla": "INC", "etapa": "EP", "status": "EM PRODUÇÃO", "entrega": "2026-11-12", "inicio": "2026-09-24", "fim": "2026-11-26"}], "legal": [{"sigla": "INC", "status": "NÃO INICIADO", "prazo": null, "retorno": null}]}, {"id": "m252712", "titulo": "252712 - Tenda [ANÁLISE TORRE L 14PP]", "codigo": "252712", "js": null, "nome": "ANÁLISE TORRE L 14PP", "etapa": "PB", "status": "EM PRODUÇÃO", "entrega": "2026-10-29", "pendencias": ["Liberado"], "requisitos": [{"etapa": "EP", "item": "Arquitetura", "ok": true}, {"etapa": "EP", "item": "Diretrizes", "ok": true}, {"etapa": "PL", "item": "Documentos", "ok": true}, {"etapa": "PB", "item": "IFC Arquitetura", "ok": true}, {"etapa": "PB", "item": "Estrutural", "ok": true}, {"etapa": "PB", "item": "Arquitetura", "ok": true}, {"etapa": "PB", "item": "Ambientação", "ok": true}, {"etapa": "PB", "item": "Luminotécnico", "ok": true}, {"etapa": "PB", "item": "Altura dos forros", "ok": true}, {"etapa": "PB", "item": "Paisagismo", "ok": true}, {"etapa": "PB", "item": "Validação", "ok": true}, {"etapa": "EX", "item": "Arquitetura", "ok": true}, {"etapa": "EX", "item": "Estrutural", "ok": true}, {"etapa": "EX", "item": "Ambientação", "ok": true}, {"etapa": "EX", "item": "Validação", "ok": true}], "disciplinas": [{"sigla": "HID", "etapa": "PB", "status": "EM PRODUÇÃO", "entrega": "2026-11-10", "fim": "2026-11-10", "inicio": "2026-10-17"}, {"sigla": "ELE", "etapa": "PB", "status": "REVISANDO", "entrega": null, "fim": "2026-11-11", "inicio": "2026-10-16"}, {"sigla": "CLI", "etapa": "PB", "status": "POSTADO", "entrega": null, "fim": "2026-11-11", "inicio": "2026-10-16"}, {"sigla": "ESG", "etapa": "PB", "status": "PARADO", "entrega": "2026-10-29", "fim": "2026-10-29", "inicio": "2026-10-11"}, {"sigla": "ELO", "etapa": "PB", "status": "PARADO", "entrega": null, "fim": "2026-11-09", "inicio": "2026-10-27"}, {"sigla": "INC", "etapa": "PL", "status": "PARADO", "entrega": null, "fim": "2026-11-11", "inicio": "2026-10-23"}, {"sigla": "PIS", "etapa": "PB", "status": "PARADO", "entrega": "2026-11-02", "fim": "2026-11-02", "inicio": "2026-10-22"}, {"sigla": "SBE", "etapa": "PB", "status": "PARADO", "entrega": null, "fim": "2026-11-10", "inicio": "2026-10-29"}, {"sigla": "SPDA", "etapa": "PB", "status": "PARADO", "entrega": null, "fim": "2026-11-13", "inicio": "2026-10-24"}, {"sigla": "FUROS", "etapa": "PB", "status": "PARADO", "entrega": "2026-10-29", "fim": "2026-10-29", "inicio": "2026-10-03"}], "legal": [{"sigla": "ELE", "status": "NÃO INICIADO", "prazo": null, "retorno": null}, {"sigla": "SBE", "status": "PROTOCOLADO", "prazo": null, "retorno": null}, {"sigla": "ELE", "status": "NÃO INICIADO", "prazo": null, "retorno": null}, {"sigla": "INC", "status": "APROVADO", "prazo": null, "retorno": "2024-05-16"}], "cliente": "Tenda", "linha": null, "cronograma": [{"etapa": "PB", "inicio": "2026-10-19", "fim": "2026-11-16"}]}, {"id": "m264205", "titulo": "264205 - Tenda [DAMAS VILLE 01]", "codigo": "264205", "js": null, "nome": "DAMAS VILLE 01", "etapa": "EX", "status": "EM PRODUÇÃO", "entrega": "2026-10-29", "pendencias": ["Liberado"], "requisitos": [{"etapa": "EP", "item": "Arquitetura", "ok": true}, {"etapa": "EP", "item": "Diretrizes", "ok": true}, {"etapa": "PL", "item": "Documentos", "ok": true}, {"etapa": "PB", "item": "IFC Arquitetura", "ok": true}, {"etapa": "PB", "item": "Estrutural", "ok": true}, {"etapa": "PB", "item": "Arquitetura", "ok": true}, {"etapa": "PB", "item": "Ambientação", "ok": true}, {"etapa": "PB", "item": "Luminotécnico", "ok": true}, {"etapa": "PB", "item": "Altura dos forros", "ok": true}, {"etapa": "PB", "item": "Paisagismo", "ok": true}, {"etapa": "PB", "item": "Validação", "ok": true}, {"etapa": "EX", "item": "Arquitetura", "ok": true}, {"etapa": "EX", "item": "Estrutural", "ok": true}, {"etapa": "EX", "item": "Ambientação", "ok": true}, {"etapa": "EX", "item": "Validação", "ok": true}], "disciplinas": [{"sigla": "CLI", "etapa": "EX", "status": "PARADO", "entrega": null, "fim": "2026-10-28", "inicio": "2026-10-06"}, {"sigla": "HID", "etapa": "EX", "status": "REVISANDO", "entrega": "2026-10-25", "fim": "2026-10-25", "inicio": "2026-10-15"}, {"sigla": "ESG", "etapa": "EX", "status": "REVISANDO", "entrega": null, "fim": "2026-10-25", "inicio": "2026-10-02"}, {"sigla": "ELE", "etapa": "EX", "status": "REVISANDO", "entrega": null, "fim": "2026-10-28", "inicio": "2026-10-06"}, {"sigla": "INC", "etapa": "PL", "status": "PARADO", "entrega": "2026-10-29", "fim": "2026-10-29", "inicio": "2026-10-01"}, {"sigla": "ELO", "etapa": "EX", "status": "PARADO", "entrega": null, "fim": "2026-11-02", "inicio": "2026-10-09"}, {"sigla": "FUROS", "etapa": "EX", "status": "PARADO", "entrega": null, "fim": "2026-11-02", "inicio": "2026-10-18"}, {"sigla": "PIS", "etapa": "EX", "status": "PARADO", "entrega": "2026-11-10", "fim": "2026-11-10", "inicio": "2026-10-25"}], "legal": [{"sigla": "ELE", "status": "NÃO INICIADO", "prazo": null, "retorno": null}, {"sigla": "INC", "status": "APROVADO", "prazo": null, "retorno": "2024-07-19"}], "cliente": "Tenda", "linha": null, "cronograma": [{"etapa": "EX", "inicio": "2026-10-14", "fim": "2026-11-02"}]}], "avisos": []};
+
+// ====== Dicionários ======
+const FLUXO = CFG.fluxo || ["EP", "AP", "PB", "EX"]; // etapas mestre, na ordem (ex.: Tenda: EP, PL, EX, LO)
+const ETAPA_ALIAS = CFG.etapaAlias || {}; // etapas do Notion lidas como outra (ex.: Tenda: AP e PB contam como EX)
+const ETAPAS = {
+  EP: { nome: "Estudo Preliminar", cor: "var(--ep)" }, AP: { nome: "Anteprojeto", cor: "var(--ap)" },
+  PB: { nome: "Projeto Básico", cor: "var(--pb)" }, EX: { nome: "Projeto Executivo", cor: "var(--ex)" },
+  PL: { nome: "Projeto Legal", cor: "var(--pl)" }, REV: { nome: "Revisão", cor: "var(--rev)" }, LO: { nome: "Liberado para obra", cor: "var(--lo)" },
+};
+// Ícones de linha (traço 2, cantos arredondados), no mesmo estilo do site da EXP
+const ic = {
+  cli: () => `<path d="M12.8 19.6A2 2 0 1 0 14 16H2"/><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"/><path d="M9.8 4.4A2 2 0 1 1 11 8H2"/>`,
+  esg: () => `<path d="M2 6h9a7 7 0 0 1 7 7v9"/><path d="M2 11h7a2 2 0 0 1 2 2v9"/><path d="M2 4v9M9.5 22h10"/>`,
+  hid: () => `<path d="M12 21.5a6.5 6.5 0 0 0 6.5-6.5c0-1.9-.95-3.7-2.85-5.2S12.5 6.3 12 3.5c-.5 2.8-1.75 4.8-3.65 6.3S5.5 13.1 5.5 15a6.5 6.5 0 0 0 6.5 6.5z"/><path d="M9.2 15.4a2.9 2.9 0 0 0 2.6 2.6"/>`,
+  pis: () => `<path d="M8 4v10M16 4v10M8 7h8M8 11h8"/><path d="M2 17c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>`,
+  ele: () => `<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>`,
+  sbe: () => `<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/>`,
+  spda: () => `<path d="M6 16.3A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 .5 8.97"/><path d="m13 12-3 5h4l-3 5"/>`,
+  inc: () => `<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>`,
+  elo: () => `<path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4z"/><path d="m2 22 3-3"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="m18 3-4 4h6l-4 4"/>`,
+  fur: () => `<circle cx="5" cy="6" r="3"/><path d="M12 6h5a2 2 0 0 1 2 2v7"/><path d="m15 9-3-3 3-3"/><circle cx="19" cy="18" r="3"/><path d="M12 18H7a2 2 0 0 1-2-2V9"/><path d="m9 15 3 3-3 3"/>`,
+  inf: () => `<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>`,
+  dot: () => `<circle cx="12" cy="12" r="4"/>`,
+};
+// Cores das disciplinas: tokens no CSS (--d-*), com versões mais claras no tema escuro
+const DISC = {
+  CLI: ["Climatização", "var(--d-cli)", ic.cli], ESG: ["Esgoto", "var(--d-esg)", ic.esg], HID: ["Hidráulica", "var(--d-hid)", ic.hid],
+  PIS: ["Piscina", "var(--d-pis)", ic.pis], ELE: ["Elétrica", "var(--d-ele)", ic.ele], SBE: ["Subestação", "var(--d-sbe)", ic.sbe],
+  SPDA: ["SPDA", "var(--d-spda)", ic.spda], INC: ["Incêndio", "var(--d-inc)", ic.inc], ELO: ["Dados e voz", "var(--d-elo)", ic.elo],
+  FUROS: ["Furos", "var(--d-fur)", ic.fur], FUR: ["Furos", "var(--d-fur)", ic.fur], INF: ["Infraestrutura", "var(--d-inf)", ic.inf],
+};
+const ORDEM = ["CLI", "ESG", "HID", "PIS", "INF", "ELE", "SBE", "SPDA", "INC", "ELO", "FUROS", "FUR"];
+// Status das disciplinas, simplificados para o cliente: rótulo, fundo, texto, (cor nas barras/gráficos)
+const ST = {
+  "POSTADO": ["Postado", "#09A1E3", "#121212"], "EM PRODUCAO": ["Em produção", "#3BAA63", "#121212"],
+  "AGUARDANDO": ["Aguardando", "#F28C28", "#121212"], "PAUSADO": ["Pausado", "#C23E92", "#121212"],
+  "PARADO": ["Parado", null, null, "var(--vazio)"], // Parado: vazado, para destacar os demais
+};
+// Nomes do Notion que o site agrupa num status simples
+const ST_ALIAS = { "REVISANDO": "EM PRODUCAO", "REVISAR": "EM PRODUCAO", "EM REVISAO": "EM PRODUCAO", "FAZER": "EM PRODUCAO", "POSTAR": "EM PRODUCAO", "APROVAR": "AGUARDANDO", "NAO INICIADO": "PARADO" };
+const stNorm = (s) => { const k = norm(s); return ST_ALIAS[k] || k; };
+const BARRA = Object.fromEntries(Object.entries(ST).map(([k, v]) => [k, v[3] || v[1]])); // mesma cor nas barras e gráficos
+const LEGAL = { // rótulo, fundo, texto, ordem de avanço, (cor nos gráficos)
+  "APROVADO": ["Aprovado", "#09A1E3", "#121212", 5], "PROTOCOLADO": ["Protocolado", "#DDDB00", "#121212", 4],
+  "EM PRODUCAO": ["Em produção", "#3BAA63", "#121212", 2], "AGUARDANDO": ["Aguardando", "#F28C28", "#121212", 1],
+  "PARADO": ["Parado", null, null, 0, "var(--vazio)"], "NAO SE APLICA": ["Não se aplica", null, null, -1, "var(--vazio)"],
+};
+const LEGAL_ALIAS = { "EM DESENVOLVIMENTO": "EM PRODUCAO", "DESENVOLVIMENTO": "EM PRODUCAO", "EM ELABORACAO": "EM PRODUCAO", "AGUARDANDO PROTOCOLAR": "EM PRODUCAO",
+  "REAPROVAR": "EM PRODUCAO", "EM ESTUDO INICIAL": "EM PRODUCAO", "ESTUDO INICIAL": "EM PRODUCAO", "REVISANDO": "EM PRODUCAO", "EM EXIGENCIA": "EM PRODUCAO",
+  "EM ANALISE": "PROTOCOLADO", "NAO INICIADO": "PARADO" };
+const TODOS_LEGAL = [["Incêndio", "#D62828", ["INC"]], ["Elétrico", "#E06A00", ["ELE", "SBE"]], ["Infraestrutura", "#8A5A2B", ["INF"]]];
+let GRUPOS_LEGAL = TODOS_LEGAL; // ajustado ao carregar os dados (Infraestrutura só se algum projeto tiver)
+
+// ====== Utilidades ======
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const norm = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim();
+const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : s);
+const data = (iso) => (iso ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}` : null);
+const lum = (h) => { const n = parseInt(String(h).slice(1), 16); return (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255; };
+// No tema escuro, etiquetas coloridas usam texto escuro (exceto as de fundo escuro, como "Não iniciado")
+const pill = ([r, f, c]) => f ? `<span class="pill${String(f).startsWith("#") && lum(f) > 0.3 ? " cor" : ""}" style="background:${f};color:${c}">${esc(r)}</span>` : `<span class="pill o">${esc(r)}</span>`;
+const stDisc = (s) => ST[stNorm(s)] || [cap(s) || "—", "#E4E4DC", "#121212"];
+const stLegal = (s) => { const k = norm(s); return LEGAL[LEGAL_ALIAS[k] || k] || [cap(s) || "—", "#E4E4DC", "#121212", 1]; };
+const disc = (s) => { const d = DISC[norm(s)]; return d ? { nome: d[0], cor: d[1], icone: d[2] } : { nome: s || "—", cor: "#6B6B66", icone: ic.dot }; };
+// Siglas e nomes de etapa próprios do cliente (ex.: na Victa, AP aparece como AP1 e PB como AP2; no Notion continua AP e PB)
+Object.entries(CFG.etapas || {}).forEach(([k, nome]) => { if (ETAPAS[k]) ETAPAS[k].nome = nome; });
+const sig = (k) => (CFG.siglas || {})[k] || k;
+const etapa = (s) => ETAPAS[norm(s)] || { nome: s || "—", cor: "#E4E4DC" };
+const etq = (s) => `<span class="etq" style="background:${etapa(s).cor}" title="${esc(etapa(s).nome)}">${esc(sig(norm(s)) || "—")}</span>`;
+const icone = (fn, cor, w = 22) => `<svg width="${w}" height="${w}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:${cor};flex:none">${fn()}</svg>`;
+const check = (cor, t = 20) => `<svg width="${t}" height="${t}" viewBox="0 0 24 24" fill="none" stroke="${cor}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.8 12.4l2.8 2.8 5.6-5.8"/></svg>`;
+const aberto = (cor, t = 20) => `<svg width="${t}" height="${t}" viewBox="0 0 24 24" fill="none" stroke="${cor}" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="10"/></svg>`;
+const chevron = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>`;
+
+// Nome exibido: código do cliente (JS000) + nome do empreendimento; o código interno fica escondido
+const rotulo = (p) => [p.js, p.nome].filter(Boolean);
+const slug = (p) => (p.js || p.codigo || p.nome).toLowerCase().replace(/[^a-z0-9]+/g, "-");
+const nomeHtml = (p, sepCls = "sep") => rotulo(p).map(esc).join(`<span class="${sepCls}">·</span>`);
+function legalDe(p, siglas) { // junta as linhas do grupo (ex.: ELE + SBE) e mostra a mais avançada
+  const linhas = p.legal.filter((l) => siglas.includes(norm(l.sigla)));
+  if (!linhas.length) return null;
+  linhas.sort((a, b) => stLegal(b.status)[3] - stLegal(a.status)[3] || String(b.retorno || b.prazo || "").localeCompare(String(a.retorno || a.prazo || "")));
+  return { ...linhas[0], retorno: linhas[0].retorno || linhas[0].prazo, incluiSBE: linhas.some((l) => norm(l.sigla) === "SBE") };
+}
+// Checklist por etapa (caixas "EP - Arquitetura" etc. no Notion; marcada = concluída)
+// Em qual grupo do checklist cada etapa entra (ex.: Victa: AP usa o checklist do PB; J.Simões: AP usa o do EP). PL vem logo depois do EP e sempre entra nas pendências
+const GRUPO_DE = { EP: "EP", PE: "EX", PB: "PB", EX: "EX", PL: "PL", ...CFG.checklist.grupoDe };
+const POS_GRUPO = { EP: 1, PB: 2, EX: 3 }; // requisito para chegar em AP, PB e EX
+const POS_ETAPA = { EP: 0, AP: 1, PB: 2, EX: 3, ...CFG.posEtapa };
+// Projeto só de Incêndio (sem outras disciplinas): as pendências param no PL
+const soIncendio = (p) => !!CFG.soIncendioSoPL && p.disciplinas.length > 0 && p.disciplinas.every((d) => norm(d.sigla) === "INC");
+const SIG_GRUPO = { EX: "EX", PL: "PL", ...CFG.checklist.siglas };
+const NOME_GRUPO = { EX: "Projeto Executivo", PL: "Projeto Legal", ...CFG.checklist.nomes };
+const COR_GRUPO = { EP: "var(--ep)", PB: "var(--pb)", EX: "var(--ex)", PL: "var(--pl)" };
+const ORDEM_ITENS = { PB: ["IFC ARQUITETURA", "ESTRUTURAL", "ARQUITETURA", "AMBIENTACAO", "LUMINOTECNICO", "ALTURA DOS FORROS", "PAISAGISMO", "VALIDACAO"], "*": ["ARQUITETURA", "DIRETRIZES", "DOCUMENTOS", "ESTRUTURAL", "AMBIENTACAO", "VALIDACAO"] };
+const nomeItem = (t) => (norm(t).startsWith("VALIDACAO") && norm(t).length <= 12 ? "Validação da etapa anterior" : t);
+function grupos(p) {
+  const req = (p.requisitos || []).map((r) => ({ ...r, g: GRUPO_DE[norm(r.etapa)] })).filter((r) => r.g && (!soIncendio(p) || r.g === "PL"));
+  const seq = ["EP", "PB", "EX"].filter((k) => req.some((r) => r.g === k));
+  const atual = POS_ETAPA[norm(p.etapa)] ?? -1;
+  const alvo = seq.find((k) => POS_GRUPO[k] > atual) || (seq.includes("EX") && atual >= 3 ? "EX" : null);
+  const posAlvo = alvo ? POS_GRUPO[alvo] : -1;
+  const chaves = ["EP", "PL", "PB", "EX"].filter((k) => k === "PL" ? req.some((r) => r.g === "PL") : seq.includes(k)); // PL logo após EP/AP
+  return chaves.map((k) => {
+    const pref = ORDEM_ITENS[k] || ORDEM_ITENS["*"];
+    const pos = (t) => { const i = pref.findIndex((x) => norm(t).startsWith(x)); return i < 0 ? 50 : i; };
+    const itens = req.filter((r) => r.g === k).sort((a, b) => pos(a.item) - pos(b.item) || a.item.localeCompare(b.item));
+    const exigido = k === "PL" || POS_GRUPO[k] <= posAlvo; // até a etapa-alvo (e o PL), o que falta é pendência
+    return { k, itens, exigido, alvo: k === alvo, aParte: k === "PL", feitos: itens.filter((r) => r.ok).length };
+  });
+}
+// Pendências do projeto: itens não marcados até a próxima etapa; sem checklist, usa o campo de múltipla seleção
+function pendentes(p) {
+  if ((p.requisitos || []).length) return grupos(p).filter((g) => g.exigido).flatMap((g) => g.itens.filter((r) => !r.ok).map((r) => r.item));
+  return p.pendencias.filter((x) => norm(x) !== "LIBERADO");
+}
+const postadas = (p) => p.disciplinas.filter((d) => stNorm(d.status) === "POSTADO").length;
+const ordenarDisc = (l) => { const pos = (s) => { const i = ORDEM.indexOf(norm(s)); return i < 0 ? 99 : i; }; return [...l].sort((a, b) => pos(a.sigla) - pos(b.sigla)); };
+function ordenarProj(l) {
+  const pos = (e) => { const i = FLUXO.indexOf(norm(e)); return i < 0 ? 9 : i; };
+  const num = (p) => Number(String(p.js || "").replace(/\D/g, "")) || 0;
+  return [...l].sort((a, b) => pos(a.etapa) - pos(b.etapa) || num(a) - num(b));
+}
+function globalData(p) { // data do projeto (linha COOR); * quando alguma disciplina tem outra data
+  const outras = p.disciplinas.map((d) => d.entrega).filter(Boolean);
+  return { data: data(p.entrega), asterisco: outras.some((d) => d !== p.entrega) };
+}
+
+// ====== Estado ======
+const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
+let DADOS = null, PROJS = [], ANAS = [], filtro = "all", busca = "", fonte = { tipo: "", texto: "" };
+let acesso = "gestao"; // "gestao" = vê tudo; id de analista = vê só os projetos dele (no site real vem do link pessoal)
+const abertas = new Set(); // pastas de analista abertas na barra lateral
+const anaDe = (id) => ANAS.find((a) => a.id === id) || { id: id || "sem", nome: id ? id : "Sem analista" };
+const base = () => PROJS.filter((p) => acesso === "gestao" || p.analista === acesso);
+const visivel = (p) => (filtro === "all" || norm(p.etapa) === filtro) && (!busca || norm([p.js, p.nome, p.cliente, linhaDe(p), COM_ANA ? anaDe(p.analista).nome : "", etapa(p.etapa).nome, sig(norm(p.etapa))].join(" ")).includes(busca));
+const VARIOS_CLIENTES = () => new Set(PROJS.map((p) => p.cliente).filter(Boolean)).size > 1;
+// Linha de apoio sob o nome do projeto: analista (se houver), cliente (se o site tiver mais de um) ou linha de produto
+const subProj = (p, comAna = COM_ANA) => [comAna ? anaDe(p.analista).nome : "", VARIOS_CLIENTES() ? p.cliente : linhaDe(p) ? "Linha " + linhaDe(p) : ""].filter(Boolean).map(esc).join(" · ");
+// Linha de produto: vem da coluna "Linha de produto" do Notion; a lista do cliente (se houver) é só reserva
+const LINHAS = CFG.linhas || []; // [nome da linha, palavras que identificam o empreendimento]
+function linhaDe(p) {
+  if (p.linha) return p.linha;
+  const ws = norm(p.nome).replace(/[^A-Z0-9 ]/g, " ").split(/\s+/);
+  const l = LINHAS.find(([, regras]) => regras.some((r) => r.every((w) => ws.includes(w))));
+  return l ? l[0] : null;
+}
+const linhaTag = (p) => { const l = linhaDe(p); return l ? `<span class="cli linha" title="Linha de produto">Linha ${esc(l)}</span>` : cliTag(p); };
+const cliTag = (p) => p.cliente ? `<span class="cli${CFG.clientes.indexOf(p.cliente) > 0 ? " alt" : ""}">${esc(p.cliente)}</span>` : "";
+const icoPasta = `<svg class="fold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>`;
+// Próximas entregas: disciplinas não postadas com data nas próximas 2 semanas (e as atrasadas)
+const hojeISO = () => (DADOS && DADOS.hoje) || new Date().toISOString().slice(0, 10);
+const diaN = (iso) => Math.round((Date.parse(iso) - Date.parse(hojeISO())) / 864e5);
+const SEMANA = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
+function proximas(projs, dias = 14) {
+  return projs.flatMap((p) => p.disciplinas.filter((d) => norm(d.status) !== "POSTADO" && d.entrega && diaN(d.entrega) <= dias).map((d) => ({ p, d }))).sort((a, b) => a.d.entrega.localeCompare(b.d.entrega));
+}
+function blocoProximas(projs, comAnalista) {
+  const itens = proximas(projs), grupos = {};
+  itens.forEach((it) => (grupos[it.d.entrega] = grupos[it.d.entrega] || []).push(it));
+  const dias = Object.keys(grupos).sort();
+  const corpo = dias.map((dia) => {
+    const n = diaN(dia), rel = n === 0 ? "hoje" : n === 1 ? "amanhã" : n < 0 ? `${-n} dia${n < -1 ? "s" : ""} de atraso` : `em ${n} dias`;
+    const sem = SEMANA[new Date(dia + "T12:00:00Z").getUTCDay()];
+    return `<p class="dia${n < 0 ? " atraso" : ""}">${sem}, ${dia.slice(8, 10)}/${dia.slice(5, 7)} · ${rel}</p>` + grupos[dia].map(({ p, d }) => {
+      const m = disc(d.sigla);
+      return `<a class="ei" href="#${slug(p)}"><span class="dn" style="color:${m.cor}">${icone(m.icone, m.cor, 24)}<span>${esc(m.nome)}</span></span><span class="pjn"><b>${nomeHtml(p)}</b><small>${subProj(p, comAnalista && COM_ANA)}</small></span>${etq(d.etapa)}<span class="c">${pill(stDisc(d.status))}</span></a>`;
+    }).join("");
+  }).join("");
+  const atr = itens.filter((it) => diaN(it.d.entrega) < 0).length;
+  return `<section class="card bloco"><header><div><p class="eyebrow">Próximas 2 semanas</p><h2 class="t">Próximas entregas</h2></div><small>${itens.length - atr} programada${itens.length - atr === 1 ? "" : "s"}${atr ? ` · <b style="color:#B4541A">${atr} atrasada${atr > 1 ? "s" : ""}</b>` : ""}</small></header>
+<div class="lista-ent">${corpo || '<p class="vazio">Nenhuma entrega programada nas próximas 2 semanas.</p>'}</div></section>`;
+}
+
+// ====== Páginas ======
+function pgGeral(a) {
+  const doGrupo = base().filter((p) => !a || p.analista === a.id);
+  const quando = new Date(DADOS.atualizado || Date.now());
+  const carimbo = `${quando.toLocaleDateString("pt-BR")} às ${quando.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`;
+  const contagem = FLUXO.map((k) => [k, doGrupo.filter((p) => norm(p.etapa) === k).length]);
+  const tiles = contagem.map(([k, n]) => `<button class="etapa-t" style="--c:${ETAPAS[k].cor}" data-f="${k}" aria-pressed="${filtro === k}"><small>${sig(k)}</small><b class="num">${n}</b><span>${ETAPAS[k].nome}</span></button>`).join("");
+  const presentesSt = new Set(doGrupo.flatMap((p) => p.disciplinas.map((d) => stKey(d.status))));
+  const legenda = `<div class="legenda" aria-label="Legenda das disciplinas"><p class="lt">Status das disciplinas</p>${Object.keys(BARRA).filter((k) => presentesSt.has(k)).map((k) => [stDisc(k)[0], k]).map(([t, k]) => `<p><i style="background:${BARRA[k]}"></i>${t}</p>`).join("")}</div>`;
+  const lista = doGrupo.filter(visivel);
+  let asterisco = false;
+  const linhas = lista.map((p) => {
+    const tot = p.disciplinas.length, post = postadas(p), seg = {};
+    p.disciplinas.forEach((d) => { const k = stKey(d.status); seg[k] = (seg[k] || 0) + 1; });
+    const barra = Object.keys(BARRA).filter((k) => seg[k]).map((k) => `<i style="flex:${seg[k]};background:${BARRA[k]}"></i>`).join("");
+    const leg = GRUPOS_LEGAL.map(([nome, , s]) => { const l = legalDe(p, s); return `<div class="cel c"><span class="lbl">Legalização ${nome}</span>${l ? pill(stLegal(l.status)) : '<span class="dash">—</span>'}</div>`; }).join("");
+    const g = globalData(p); if (g.asterisco) asterisco = true;
+    const n = pendentes(p).length;
+    return `<a class="linha" href="#${slug(p)}">
+<div class="pj"><b>${nomeHtml(p)}</b><small>${subProj(p, !a && COM_ANA)}</small></div>
+<div class="cel c"><span class="lbl">Etapa global</span>${etq(p.etapa)}</div>
+<div class="cel barra"><span class="lbl">Disciplinas postadas</span><span style="display:flex;align-items:center;gap:10px"><span class="b">${barra}</span><strong class="num">${post}/${tot}</strong></span></div>
+${leg}
+<div class="cel c num"><span class="lbl">Próxima postagem</span><span>${g.data ? `<b>${g.data}</b>` : '<span class="dash">—</span>'}${g.asterisco ? '<b style="color:#D62828">*</b>' : ""}</span></div>
+<div class="cel c"><span class="lbl">Pendências</span>${n ? `<span class="pill" style="background:var(--night);color:var(--lime)">Sim · ${n}</span>` : '<span class="pill o">Não</span>'}</div>
+<span class="chev">${chevron}</span></a>`;
+  }).join("");
+  const filtroTxt = filtro !== "all" || busca ? `<p class="nota">Mostrando ${lista.length} de ${doGrupo.length} projetos${filtro !== "all" ? ` em ${ETAPAS[filtro].nome}` : ""}. <a href="#" id="limpar">Mostrar todos</a></p>` : "";
+  return `<section class="view">
+${a ? `${acesso === "gestao" ? `<nav class="trilha" aria-label="Você está em"><a href="#coordenacao">Coordenação</a><span>›</span><span>Analistas</span></nav>` : ""}
+<header class="cab-ana"><h1>${icoPasta}${esc(a.nome)}</h1><div class="meta"><span>Analista · ${doGrupo.length} projeto${doGrupo.length === 1 ? "" : "s"}</span>${[...new Set(doGrupo.map((p) => p.cliente).filter(Boolean))].map((c) => cliTag({ cliente: c })).join("")}${selo()}</div></header>${subAbas("a-" + a.id, "")}` : cabMin(`Coordenação · ${doGrupo.length} projetos${COM_ANA ? ` · ${new Set(doGrupo.map((p) => p.analista)).size} analistas` : ""}`, esc(CFG.nome))}
+<div class="etapas" role="group" aria-label="Projetos por etapa global">${tiles}</div>
+<section style="display:flex;flex-direction:column;gap:14px">
+  <div class="sec-h"><div><p class="eyebrow">Coordenação</p><h2 class="t">Situação dos projetos</h2></div>${legenda}</div>
+  ${filtroTxt}
+  <div class="card tabela" style="--nleg:${GRUPOS_LEGAL.length}">
+    <div class="linha cab"><span>Projeto</span><span class="c">Etapa global</span><span class="c">Disciplinas postadas</span>${GRUPOS_LEGAL.map(([nome]) => `<span class="c"><em>Legalização</em>${nome}</span>`).join("")}<span class="c">Próxima postagem global</span><span class="c">Pendências</span><span></span></div>
+    ${linhas || '<p class="vazio">Nenhum projeto com esse filtro.</p>'}
+  </div>
+  ${asterisco ? '<p class="nota"><b>*</b> Projeto com disciplinas em datas diferentes: mostrada a data da etapa global. Ver a página do projeto.</p>' : ""}
+</section>
+${blocoProximas(doGrupo, !a)}
+</section>`;
+}
+
+// ====== Gráficos (status por projeto, legalização por projeto, disciplinas por status) ======
+let GRUPOS_GRAF_LEGAL = TODOS_LEGAL.map(([nome, , s]) => [nome, s[0], s]);
+const nomesLegal = () => { const n = GRUPOS_LEGAL.map((g) => g[0]); return n.length > 1 ? n.slice(0, -1).join(", ") + " e " + n.at(-1) : n[0]; };
+const ORD_ST = Object.keys(BARRA);
+// Infraestrutura fica só na legalização: não entra nos gráficos de status das disciplinas
+const SO_LEGAL = ["INF"];
+const discGraf = (p) => p.disciplinas.filter((d) => !SO_LEGAL.includes(norm(d.sigla)));
+const stKey = (s) => (BARRA[stNorm(s)] ? stNorm(s) : "PARADO");
+const corLegal = (st) => st[4] || st[1] || "#E4E4DC"; // cor no gráfico (status só com contorno: cinza claro)
+const posDisc = (s) => { const i = ORDEM.indexOf(norm(s)); return i < 0 ? 99 : i; };
+const passoEixo = (max) => (max <= 10 ? 1 : max <= 20 ? 2 : 5);
+function legendaGraf(itens) {
+  return `<div class="gleg">${itens.map(([t, cor]) => `<span><i style="background:${cor}"></i>${esc(t)}</span>`).join("")}</div>`;
+}
+// Gráfico de barras horizontais empilhadas (estilo Notion): rótulo à esquerda, barra fina, valor no fim, dica ao passar o mouse
+function barrasH(linhas, max) {
+  const passo = passoEixo(max), marcas = [];
+  for (let i = 0; i <= max; i += passo) marcas.push(i);
+  const grade = marcas.map((i) => `<i style="left:${(i / max) * 100}%"></i>`).join("");
+  const corpo = linhas.map(({ rotulo, href, segs, n }) => {
+    const tag = href ? "a" : "div";
+    const barra = segs.map((s) => `<i class="sg" style="flex:${s.n || 1};background:${s.cor};color:${s.txt || "#121212"}" data-tip="${esc(s.tip)}">${s.rot ? `<span>${esc(s.rot)}</span>` : ""}</i>`).join("");
+    return `<${tag} class="gh-l"${href ? ` href="${href}"` : ""}><span class="gh-r">${rotulo}</span><span class="gh-t"><span class="gh-s" style="width:${(n / max) * 100}%">${barra}</span><b class="gh-v" style="left:${(n / max) * 100}%">${n}</b></span></${tag}>`;
+  }).join("");
+  return `<div class="gh"><div class="gh-grade">${grade}</div>${corpo}<div class="gh-l gh-x"><span class="gh-r"></span><span class="gh-t">${marcas.map((i) => `<span style="left:${(i / max) * 100}%">${i}</span>`).join("")}</span></div></div>`;
+}
+// 1) Status das disciplinas por projeto: cada trecho é uma disciplina, na cor do seu status
+// Disciplinas com o mesmo status viram um trecho só; a dica lista quais são
+function segsStatus(p) {
+  return ORD_ST.map((k) => {
+    const ds = discGraf(p).filter((d) => stKey(d.status) === k).sort((a, b) => posDisc(a.sigla) - posDisc(b.sigla));
+    return ds.length ? { cor: BARRA[k], txt: ST[k][2], n: ds.length, rot: ds.map((d) => norm(d.sigla)).join(" · "), tip: `${stDisc(k)[0]} (${ds.length}): ${ds.map((d) => disc(d.sigla).nome).join(", ")}` } : null;
+  }).filter(Boolean);
+}
+function stPresentes(projs) {
+  const ks = new Set(projs.flatMap((p) => discGraf(p).map((d) => stKey(d.status))));
+  return ORD_ST.filter((k) => ks.has(k)).map((k) => [stDisc(k)[0], BARRA[k]]);
+}
+const rotProj = (p) => `<b>${esc(p.nome)}</b>`;
+function grafStatusProjetos(projs) {
+  const max = Math.max(1, ...projs.map((p) => discGraf(p).length));
+  return barrasH(projs.map((p) => ({ rotulo: rotProj(p), href: `#${slug(p)}`, segs: segsStatus(p), n: discGraf(p).length })), max) + legendaGraf(stPresentes(projs));
+}
+// 2) Legalização por projeto: Incêndio, Elétrico e Infraestrutura, na cor do status legal
+function legaisGraf(p) {
+  return GRUPOS_GRAF_LEGAL.map(([nome, sigla, s]) => { const l = legalDe(p, s); return l ? { nome, sigla, l } : null; }).filter(Boolean);
+}
+function segsLegal(p) { // agrupado por status, do mais avançado ao menos avançado
+  const g = new Map();
+  legaisGraf(p).forEach(({ nome, sigla, l }) => { const st = stLegal(l.status); const x = g.get(st[0]) || { st, nomes: [], siglas: [] }; x.nomes.push(nome); x.siglas.push(sigla); g.set(st[0], x); });
+  return [...g.values()].sort((a, b) => b.st[3] - a.st[3]).map(({ st, nomes, siglas }) => ({ cor: corLegal(st), txt: st[2] || "#121212", n: nomes.length, rot: siglas.join(" · "), tip: `${st[0]}: ${nomes.join(", ")}` }));
+}
+function legPresentes(projs) {
+  const vistos = new Map();
+  projs.forEach((p) => legaisGraf(p).forEach(({ l }) => { const st = stLegal(l.status); vistos.set(st[0], st); }));
+  return [...vistos.values()].sort((a, b) => b[3] - a[3]).map((st) => [st[0], corLegal(st)]);
+}
+function grafLegalProjetos(projs) {
+  const max = Math.max(1, ...projs.map((p) => legaisGraf(p).length));
+  return barrasH(projs.map((p) => ({ rotulo: rotProj(p), href: `#${slug(p)}`, segs: segsLegal(p), n: legaisGraf(p).length })), max) + legendaGraf(legPresentes(projs));
+}
+// 3) Disciplinas por status: colunas empilhadas, uma por disciplina
+function grafDisciplinas(projs) {
+  const cont = {};
+  projs.forEach((p) => discGraf(p).forEach((d) => { const s = norm(d.sigla) || "—", k = stKey(d.status); cont[s] = cont[s] || {}; cont[s][k] = (cont[s][k] || 0) + 1; }));
+  const siglas = Object.keys(cont).sort((a, b) => posDisc(a) - posDisc(b) || a.localeCompare(b));
+  if (!siglas.length) return '<p class="vazio">Nenhuma disciplina cadastrada.</p>';
+  const tot = (s) => Object.values(cont[s]).reduce((a, b) => a + b, 0);
+  const bruto = Math.max(...siglas.map(tot)), passo = passoEixo(bruto), max = Math.ceil(bruto / passo) * passo, marcas = [];
+  for (let i = 0; i <= max; i += passo) marcas.push(i);
+  const cols = siglas.map((s) => {
+    const m = disc(s), t = tot(s);
+    const segs = ORD_ST.filter((k) => cont[s][k]).map((k) => `<i class="sg" style="flex:${cont[s][k]};background:${BARRA[k]}" data-tip="${esc(`${m.nome} · ${stDisc(k)[0]}: ${cont[s][k]}`)}"></i>`).join("");
+    return `<div class="gv-c"><span class="gv-b" style="height:${(t / max) * 100}%"><b class="gv-v">${t}</b>${segs}</span><span class="gv-x" data-tip="${esc(m.nome)}">${esc(s)}</span></div>`;
+  }).join("");
+  return `<div class="gv"><div class="gv-y">${marcas.map((i) => `<span style="bottom:${(i / max) * 100}%">${i}</span>`).join("")}</div><div class="gv-area"><div class="gv-grade">${marcas.map((i) => `<i style="bottom:${(i / max) * 100}%"></i>`).join("")}</div>${cols}</div></div>${legendaGraf(stPresentes(projs))}`;
+}
+function blocoGraficos(projs) {
+  if (!projs.length) return "";
+  return `<section class="graficos">
+  <div class="sec-h"><div><p class="eyebrow">Visão gráfica</p><h2 class="t">Status em gráficos</h2></div><p class="nota">Passe o mouse (ou toque) nas barras para ver cada disciplina.</p></div>
+  <div class="card gcard"><h3 class="gt">Status das disciplinas por projeto</h3>${grafStatusProjetos(projs)}</div>
+  <div class="card gcard"><h3 class="gt">Legalização por projeto</h3><p class="gsub">${nomesLegal()}</p>${grafLegalProjetos(projs)}</div>
+</section>`;
+}
+// Na página do projeto: o mesmo gráfico da visão geral, com uma barra para as disciplinas e outra para a legalização
+function blocoGraficosProjeto(p) {
+  const nd = discGraf(p).length, nl = legaisGraf(p).length;
+  if (!nd && !nl) return "";
+  const linhas = [];
+  if (nd) linhas.push({ rotulo: "<b>Disciplinas</b>", segs: segsStatus(p), n: nd });
+  if (nl) linhas.push({ rotulo: "<b>Legalização</b>", segs: segsLegal(p), n: nl });
+  return `<section class="card gcard"><div class="gcab"><h2 class="t">Visão gráfica</h2><p class="nota">Passe o mouse (ou toque) nas barras para ver os nomes.</p></div>
+  <div class="gproj">${barrasH(linhas, Math.max(nd, nl, 1))}</div>
+  <div class="gleg2"><b>Disciplinas</b>${legendaGraf(stPresentes([p]))}</div>${nl ? `<div class="gleg2"><b>Legalização</b>${legendaGraf(legPresentes([p]))}</div>` : ""}
+</section>`;
+}
+// Dica flutuante dos gráficos (mouse ou toque)
+(() => {
+  const tip = document.createElement("div"); tip.className = "gtip"; tip.hidden = true; document.body.appendChild(tip);
+  const mostrar = (el, x, y) => { tip.textContent = el.dataset.tip; tip.hidden = false; const w = tip.offsetWidth; tip.style.left = Math.min(window.innerWidth - w - 8, Math.max(8, x - w / 2)) + "px"; tip.style.top = (y - tip.offsetHeight - 12) + "px"; };
+  document.addEventListener("mousemove", (e) => { const el = e.target.closest && e.target.closest("[data-tip]"); el ? mostrar(el, e.clientX, e.clientY) : (tip.hidden = true); });
+  document.addEventListener("click", (e) => { const el = e.target.closest && e.target.closest(".sg[data-tip]"); if (el && matchMedia("(hover: none)").matches) { e.preventDefault(); const r = el.getBoundingClientRect(); mostrar(el, r.left + r.width / 2, r.top); } });
+  document.addEventListener("scroll", () => (tip.hidden = true), true);
+})();
+
+function pgProjeto(p, sub) {
+  const idx = FLUXO.indexOf(norm(p.etapa));
+  const passos = FLUXO.map((k, i) => `<div class="passo ${i < idx ? "feito" : i === idx ? "atual" : ""}"><span class="bola">${i < idx ? "✓" : sig(k)}</span><div><b>${ETAPAS[k].nome}</b><br><small>${i < idx ? "Concluída" : i === idx ? "Etapa atual" : "Próxima"}</small></div></div>`).join("");
+  const ds = ordenarDisc(p.disciplinas);
+  const linhas = ds.map((d) => {
+    const m = disc(d.sigla), ent = data(d.entrega);
+    return `<div class="dl"><span class="dn" style="color:${m.cor}">${icone(m.icone, m.cor)}<span>${esc(m.nome)}</span></span><span class="c">${etq(d.etapa)}</span><span class="c">${pill(stDisc(d.status))}</span><span class="ent num">${ent || '<span class="dash">—</span>'}</span></div>`;
+  }).join("") || '<p class="vazio">Nenhuma disciplina cadastrada no Notion.</p>';
+  const presentes = Object.keys(ETAPAS).filter((k) => ds.some((d) => norm(d.etapa) === k));
+  const gruposLegal = soIncendio(p) ? GRUPOS_LEGAL.filter(([, , g]) => legalDe(p, g)) : GRUPOS_LEGAL; // só Incêndio: não mostra os outros tipos vazios
+  const legais = gruposLegal.map(([nome, cor, s], i) => {
+    const l = legalDe(p, s);
+    return `<div class="leg"><div class="top"><b style="color:${cor}">${i + 1} · ${nome}</b>${l ? pill(stLegal(l.status)) : '<span class="pill o">Sem cartão</span>'}</div><dl><dt>Previsão de retorno</dt><dd class="num">${l && l.retorno ? data(l.retorno) : '<span class="dash">—</span>'}</dd></dl>${l && l.incluiSBE ? '<p class="obs">Inclui a Subestação (SBE).</p>' : ""}</div>`;
+  }).join("");
+
+  // Pendências por etapa: todas as caixas do checklist; não marcadas até a próxima etapa ficam em destaque
+  const gs = grupos(p), pend = pendentes(p);
+  const alvo = gs.find((g) => g.alvo);
+  const blocosPend = gs.length ? gs.map((g) => `<div class="grupo${g.alvo ? " alvo" : ""}" style="--c:${COR_GRUPO[g.k]}">
+  <div class="gh"><span class="sig">${SIG_GRUPO[g.k]} · ${g.feitos}/${g.itens.length}</span><b>${NOME_GRUPO[g.k]}</b>${g.alvo ? "<small>Próxima etapa</small>" : ""}</div>
+  <ul class="lista">${g.itens.map((r) => r.ok ? `<li>${check("#8C9400")}<span>${esc(nomeItem(r.item))}</span></li>`
+    : g.exigido ? `<li class="p">${aberto("#E8901C")}<span>${esc(nomeItem(r.item))}</span><em>Pendente</em></li>`
+    : `<li class="f">${aberto("#B9B9B0")}<span>${esc(nomeItem(r.item))}</span></li>`).join("")}</ul></div>`).join("")
+    : pend.length ? `<ul class="lista">${pend.map((x) => `<li class="p">${aberto("#E8901C")}<span>${esc(x)}</span><em>Pendente</em></li>`).join("")}</ul>` : "";
+  const prox = idx >= 0 && idx < FLUXO.length - 1 ? `Próxima etapa: ${ETAPAS[FLUXO[idx + 1]].nome}` : idx === FLUXO.length - 1 ? `Etapa final: ${ETAPAS[FLUXO[idx]].nome}` : "";
+  const total = gs.reduce((n, g) => n + g.itens.length, 0), feitos = gs.reduce((n, g) => n + g.feitos, 0);
+  const resumo = `<div class="resumo">${pend.length ? `<span class="pill" style="background:var(--warn);color:#121212">${pend.length} pendente${pend.length > 1 ? "s" : ""}</span>` : `<span class="pill" style="background:var(--lime);color:#121212">Liberado</span>`}${total ? `<span class="pill o">${feitos}/${total} concluídas</span>` : ""}</div>`;
+
+  const irmaos = base().filter((x) => !COM_ANA || x.analista === p.analista), i = irmaos.indexOf(p), ant = irmaos[i - 1], prx = irmaos[i + 1], an = anaDe(p.analista), deAna = COM_ANA ? ` de ${esc(an.nome)}` : "";
+  const [sr] = stDisc(p.status);
+  return `<section class="view">
+<nav class="trilha" aria-label="Você está em">${acesso === "gestao" ? `<a href="#coordenacao">Coordenação</a><span>›</span>` : ""}${COM_ANA ? `<a href="#a-${an.id}">${esc(an.nome)}</a><span>›</span>` : ""}<span>Projeto</span></nav>
+<header class="cabeca">
+  <h1>${nomeHtml(p)}</h1>
+  <div class="meta">${linhaTag(p)}${COM_ANA ? `<span>Analista <a href="#a-${an.id}" style="font-weight:700">${esc(an.nome)}</a></span>` : ""}<span>Status geral ${pill(stDisc(p.status))}</span><span>Etapa global ${etq(p.etapa)} <b>${esc(etapa(p.etapa).nome)}</b></span></div>
+</header>
+${subAbas(slug(p), sub)}
+${sub === "indicadores" ? `${blocoGraficosProjeto(p)}
+<section class="card gcard"><div class="gcab"><h2 class="t">Cronograma do projeto</h2><p class="nota">Etapa global do projeto e cada disciplina, pela data de início adotada e pela data de entrega do Notion.</p></div>${gantt([p], true)}</section>` : `
+<div class="card fluxo" aria-label="Fluxo de etapas">${passos}</div>
+<div class="duas">
+  <section class="card bloco"><header><h2 class="t">Disciplinas</h2><small class="num">${postadas(p)} de ${ds.length} postadas</small></header>
+    <div class="disc"><div class="dl cab"><span>Disciplina</span><span class="c">Etapa</span><span class="c">Status</span><span class="ent">Próxima entrega</span></div>${linhas}</div>
+    ${presentes.length ? `<p class="legetapas">${presentes.map((k) => `<span><b>${sig(k)}</b> ${ETAPAS[k].nome}</span>`).join("")}</p>` : ""}
+  </section>
+  <section class="card bloco"><header><h2 class="t">Legalização</h2></header>${legais}</section>
+</div>
+<section class="card pend"><header><div><h2 class="t">Pendências por etapa</h2><p>${prox}</p></div>${resumo}</header>
+  ${blocosPend}
+  ${!pend.length ? `<p class="liberado">${check("#DDDB00", 22)}Sem pendências: projeto liberado para a próxima etapa.</p>` : ""}
+</section>`}
+<nav class="pager" aria-label="Outros projetos">${ant ? `<a href="#${slug(ant)}${sub ? "/" + sub : ""}"><small>← Projeto anterior${deAna}</small><b>${nomeHtml(ant)}</b></a>` : ""}${prx ? `<a class="prox" href="#${slug(prx)}${sub ? "/" + sub : ""}"><small>Próximo projeto${deAna} →</small><b>${nomeHtml(prx)}</b></a>` : ""}</nav>
+</section>`;
+}
+
+function pgSobre() {
+  return `<section class="view">
+<div class="card sobre">
+  ${CFG.sobre.trelica ? `<div class="arte trel"><img src="trelica.png" alt=""></div>` // sem render: X treliçado da EXP, como na v1
+    : `<div class="arte" style="--pos:${CFG.sobre.pos || "right bottom"}"><img class="fundo" src="${CFG.sobre.fundo}" alt=""><img class="predio" src="${CFG.sobre.predio}" alt="${esc(CFG.sobre.alt)}"></div>`}
+  <div class="txt">
+    <div class="missao"><h1>Missão</h1><p>${esc(MISSAO)}</p></div>
+    <img class="logo so-claro" src="logo-exp-tagline.png" alt="EXP BR · Projete com experts."><img class="logo so-escuro" src="logo-exp-tagline-branco.png" alt="EXP BR · Projete com experts.">
+    <a class="site" href="${SITE_EXP}" target="_blank" rel="noopener">${esc(SITE_EXP.replace(/^https?:\/\//, ""))} ${chevron}</a>
+  </div>
+</div>
+</section>`;
+}
+
+// ====== Tema claro / escuro ======
+try { const t = localStorage.getItem("tema-repasse"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("[data-tema]")) return;
+  const t = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = t;
+  try { localStorage.setItem("tema-repasse", t); } catch (er) {}
+});
+// ====== Abas e ícones ======
+// Início: a casa formada pelo espaço entre o E e o X da marca; Coordenação: o X treliçado da marca
+const icoInicio = `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 11.8L12 3.8l9.5 8"/><path d="M5.2 9.6V20h13.6V9.6"/><path d="M10 20v-5.2h4V20"/></svg>`;
+const icoCoord = `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>`;
+const icoInd = `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 16h8M7 11h12M7 6h3"/></svg>`;
+// ====== Registro de abas ======
+// Para criar uma aba nova: acrescente uma linha aqui com [id, nome, ícone, página]. Menu, celular e rotas se ajustam sozinhos.
+const ABAS = [
+  ["inicio", "Início", icoInicio, () => pgInicio()],
+  ["coordenacao", "Coordenação", icoCoord, () => pgGeral()],
+  ["indicadores", "Indicadores", icoInd, () => pgIndicadores()],
+];
+// Abas dentro da pasta do analista e do projeto: [id, nome, ícone, página do analista, página do projeto]
+const SUBABAS = [
+  ["", "Coordenação", icoCoord, (a) => pgGeral(a), (p) => pgProjeto(p, "")],
+  ["indicadores", "Indicadores", icoInd, (a) => pgIndicadores(a), (p) => pgProjeto(p, "indicadores")],
+];
+function subAbas(base, sub) {
+  return `<nav class="subabas" aria-label="Abas">${SUBABAS.map(([id, t, i]) =>
+    `<a href="#${base}${id ? "/" + id : ""}" class="aba"${(sub || "") === id ? ' aria-current="page"' : ""}>${i}<span>${t}</span></a>`).join("")}</nav>`;
+}
+const carimbo = () => { const q = new Date(DADOS.atualizado || Date.now()); return `${q.toLocaleDateString("pt-BR")} às ${q.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`; };
+const selo = () => `<span class="stamp claro"><span class="dot ${fonte.tipo}"></span>Atualizado em ${carimbo()}<small>· ${fonte.tipo === "vivo" ? "Notion" : "dados de exemplo"}</small></span>`;
+function cabMin(eyebrow, titulo) {
+  return `<header class="cab-min"><p class="eyebrow">${eyebrow}</p><h1>${titulo}</h1><p class="sub">Projete com <b>Exp</b>erts</p>${selo()}</header>`;
+}
+
+// ====== Experiência do cliente: atenção, fluxo simplificado e assistente ======
+const icoAlerta = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></svg>`;
+const icoOk = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.8 10A10 10 0 1 1 17 3.34"/><path d="m9 11 3 3L22 4"/></svg>`;
+const icoBrilho = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.13-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.13a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.13 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.13a.5.5 0 0 1-.96 0z"/><path d="M20 3v4M22 5h-4"/></svg>`;
+// Pontos que pedem ação: entregas atrasadas, etapas com prazo vencido, pendências para a próxima etapa
+function pontosAtencao(ps) {
+  const hoje = hojeISO(), itens = [];
+  const atrasadas = proximas(ps).filter((it) => diaN(it.d.entrega) < 0);
+  const porProj = new Map(); atrasadas.forEach(({ p }) => porProj.set(p, (porProj.get(p) || 0) + 1));
+  porProj.forEach((n, p) => itens.push({ p, peso: 3, txt: `${n} entrega${n > 1 ? "s" : ""} com data já passada` }));
+  ps.forEach((p) => (p.cronograma || []).forEach((c) => { if (c.fim < hoje && norm(c.etapa) === norm(p.etapa)) itens.push({ p, peso: 2, txt: `etapa ${sig(norm(c.etapa))} com prazo vencido em ${data(c.fim).slice(0, 5)}` }); }));
+  return itens.sort((a, b) => b.peso - a.peso || a.p.nome.localeCompare(b.p.nome));
+}
+function blocoAtencao(ps) {
+  const it = pontosAtencao(ps), comPend = ps.filter((p) => pendentes(p).length).length;
+  const linhas = it.slice(0, 6).map(({ p, txt }) => `<a class="at-l" href="#${slug(p)}"><span class="at-i">${icoAlerta}</span><span><b>${esc(p.nome)}</b><small>${esc(txt)}${COM_ANA ? ` · ${esc(anaDe(p.analista).nome)}` : ""}</small></span>${chevron}</a>`).join("");
+  return `<section class="card bloco atencao"><header><h2 class="t">O que precisa de atenção</h2><small>${it.length ? `${it.length} ponto${it.length > 1 ? "s" : ""}` : "tudo em dia"}</small></header>
+  ${linhas || `<p class="at-ok">${icoOk}Nenhuma entrega atrasada nem prazo vencido.</p>`}
+  ${it.length > 6 ? `<a class="ver" href="#coordenacao">Ver todos na Coordenação ${chevron}</a>` : ""}
+  <p class="nota">${comPend} projeto${comPend === 1 ? "" : "s"} com pendências para a próxima etapa. Cada pendência aparece na página do projeto.</p></section>`;
+}
+// Como lemos o andamento: etapas e status em linguagem simples
+// Início com foco em legalização: quantos projetos em cada status, por tipo (Incêndio, Elétrico...)
+function blocoLegalInicio(ps) {
+  const linhas = GRUPOS_LEGAL.map(([nome, cor, s]) => {
+    const cont = new Map(); ps.forEach((p) => { const l = legalDe(p, s); if (l) { const st = stLegal(l.status); const x = cont.get(st[0]) || { st, n: 0 }; x.n++; cont.set(st[0], x); } });
+    if (!cont.size) return "";
+    const tot = [...cont.values()].reduce((a, b) => a + b.n, 0);
+    return `<div class="lg-ini"><b style="color:${cor}">${nome}</b><span class="lg-ini-n">${tot} projeto${tot > 1 ? "s" : ""}</span><div class="lg-ini-s">${[...cont.values()].sort((a, b) => b.st[3] - a.st[3]).map(({ st, n }) => `<span>${pill(st)}<b class="num">${n}</b></span>`).join("")}</div></div>`;
+  }).join("");
+  return linhas ? `<section class="card bloco"><header><h2 class="t">Legalização</h2><a class="ver" href="#indicadores">Ver gráfico ${chevron}</a></header>${linhas}</section>` : "";
+}
+function blocoComoFunciona() {
+  const TXT = { EP: "As soluções de cada disciplina ganham seus primeiros traços.", AP: "O projeto é modelado e as disciplinas são compatibilizadas entre si.", PB: "O modelo é ajustado e os quantitativos são levantados.",
+    EX: "Os últimos ajustes são feitos e o projeto é detalhado por completo.", PL: "O projeto é preparado e levado à aprovação nos órgãos responsáveis.", LO: "O projeto está concluído e liberado para a obra." };
+  const etapas = FLUXO.map((k) => [k, TXT[k] || ""]);
+  const st = [["POSTADO", "Entregue a vocês."], ["EM PRODUCAO", "Nossa equipe está desenvolvendo."], ["AGUARDANDO", "Depende de uma informação ou validação."], ["PAUSADO", "Interrompido por enquanto."], ["PARADO", "Sem atividade no momento."]];
+  return `<section class="card bloco como"><header><h2 class="t">Como acompanhar</h2><small>etapas e status, em poucas palavras</small></header>
+  <ol class="fluxo-s">${etapas.map(([k, t]) => `<li><span class="etq" style="background:${etapa(k).cor}">${sig(k)}</span><b>${esc(etapa(k).nome)}</b><small>${esc(t)}</small></li>`).join("")}</ol>
+  <ul class="st-s">${st.map(([k, t]) => `<li>${pill(stDisc(k))}<span>${esc(t)}</span></li>`).join("")}</ul></section>`;
+}
+
+// ====== Expertinho: o assistente do painel ======
+// Funciona por roteiro: sugere perguntas prontas e responde com os dados que o site tem agora (nada sai do site).
+// Quando não entende uma pergunta escrita, diz isso com clareza e volta a oferecer o roteiro.
+const PALAVRAS_VAZIAS = new Set(["COMO", "ESTA", "ESTAO", "PROJETO", "PROJETOS", "DO", "DA", "DE", "O", "A", "OS", "AS", "QUAL", "QUE", "ME", "FALE", "SOBRE", "E", "EM", "NO", "NA", "TA", "ESTE", "ESSE"]);
+// Nomes dos clientes (vindos dos dados) também são ignorados, para o mesmo Expertinho servir a qualquer cliente da EXP
+let _vaziasCli = null;
+const vaziasCli = () => _vaziasCli || (_vaziasCli = new Set([...(DADOS.clientes || []), ...PROJS.map((p) => p.cliente || "")].flatMap((c) => norm(c).replace(/[^A-Z0-9 ]/g, " ").split(/\s+/))));
+const palavras = (t) => norm(t).replace(/[^A-Z0-9 ]/g, " ").split(/\s+/).filter((w) => w.length > 1 && !PALAVRAS_VAZIAS.has(w) && !vaziasCli().has(w));
+function acharProjeto(q) {
+  const ws = palavras(q); let melhor = null, nota = 0;
+  PROJS.forEach((p) => { const pw = palavras(p.nome); const n = ws.filter((w) => pw.includes(w)).length / Math.max(1, pw.length); if (n > nota) { nota = n; melhor = p; } });
+  return nota >= 0.5 ? melhor : null;
+}
+const lnk = (p) => `<a href="#${slug(p)}">${esc(p.nome)}</a>`;
+const MENU = () => {
+  const r = rota(), op = [];
+  if (r.p) op.push(["Como está este projeto?", "proj:" + slug(r.p)]);
+  op.push(["Resumo geral", "resumo"], ["Como está um projeto?", "escolher"], ["O que está atrasado?", "atrasos"], ["Próximas entregas", "entregas"], ["Legalização", "legal"]);
+  return op;
+};
+function porQuem() { const q = quem(); return COM_ANA && q && q !== "todos" ? ANAS.find((a) => a.id === q) : null; }
+function resumoProjeto(p) {
+  const ds = discGraf(p), cont = {};
+  ds.forEach((d) => { const k = stKey(d.status); cont[k] = (cont[k] || 0) + 1; });
+  const sts = ORD_ST.filter((k) => cont[k] && k !== "POSTADO").map((k) => { const t = stDisc(k)[0].toLowerCase(); return `${cont[k]} ${cont[k] > 1 && /o$/.test(t) ? t + "s" : t}`; }).join(", ");
+  const futuras = proximas([p]).filter((it) => diaN(it.d.entrega) >= 0), atr = proximas([p]).filter((it) => diaN(it.d.entrega) < 0);
+  const leg = legaisGraf(p).map(({ nome, l }) => `${nome}: ${stLegal(l.status)[0].toLowerCase()}`).join("; ");
+  const pend = pendentes(p).length, c = (p.cronograma || [])[0];
+  return `<b>${lnk(p)}</b> está em <b>${sig(norm(p.etapa))} · ${esc(etapa(p.etapa).nome)}</b>${c ? `, com prazo da etapa até ${data(c.fim)}${c.fim < hojeISO() ? " (<b>prazo vencido</b>: a data já passou e a etapa ainda não mudou)" : ""}` : ""}.<br>
+Disciplinas: ${postadas(p)} de ${p.disciplinas.length} postadas${sts ? `; ${sts}` : ""}.<br>
+${futuras[0] ? `Próxima entrega: ${esc(disc(futuras[0].d.sigla).nome)} em ${data(futuras[0].d.entrega)}.` : "Sem entrega programada nas próximas 2 semanas."}${atr.length ? ` <b>${atr.length} entrega${atr.length > 1 ? "s" : ""} atrasada${atr.length > 1 ? "s" : ""}</b>, porque a data prevista já passou e a disciplina ainda não foi postada.` : ""}<br>
+${leg ? `Legalização: ${esc(leg)}.<br>` : ""}${pend ? `${pend} pendência${pend > 1 ? "s" : ""} para liberar a próxima etapa.` : "Sem pendências para a próxima etapa."}`;
+}
+// Cada ação devolve [resposta, opções seguintes]
+function acao(a) {
+  const ps = base(), [tipo, arg] = a.split(":");
+  const ana = tipo.endsWith("-ana") ? ANAS.find((x) => x.id === arg) : null;
+  const doAna = (id) => (id ? ps.filter((x) => x.analista === id) : ps);
+  const voltar = ["Ver outras perguntas", "menu"];
+  if (tipo === "menu") return ["Claro! O que você quer saber?", MENU()];
+  if (tipo === "proj") { const p = PROJS.find((x) => slug(x) === arg); return p ? [resumoProjeto(p), [["Pendências deste projeto", "pend:" + arg], ["Abrir o projeto", "abrir:" + arg], voltar]] : ["Não encontrei esse projeto.", MENU()]; }
+  if (tipo === "pend") { const p = PROJS.find((x) => slug(x) === arg), l = p ? pendentes(p) : [];
+    return [l.length ? `Para liberar a próxima etapa de ${lnk(p)}, faltam:<br>${l.map((x) => `• ${esc(nomeItem(x))}`).join("<br>")}` : `${lnk(p)} não tem pendências para a próxima etapa.`, [["Abrir o projeto", "abrir:" + arg], voltar]]; }
+  if (tipo === "abrir") { location.hash = arg; return ["Abri a página do projeto para você.", [voltar]]; }
+  if (tipo === "escolher" && !COM_ANA) return ["Qual projeto?", ps.map((p) => [p.nome, "proj:" + slug(p)])];
+  if (tipo === "escolher") { const eu = porQuem();
+    if (eu) return [`Qual projeto? Estes são os seus, ${esc(eu.nome)}:`, [...doAna(eu.id).map((p) => [p.nome, "proj:" + slug(p)]), ["Ver de outro analista", "escolher-todos"]]];
+    return ["De qual analista é o projeto?", ANAS.filter((x) => ps.some((p) => p.analista === x.id)).map((x) => [x.nome, "lista-ana:" + x.id])]; }
+  if (tipo === "escolher-todos") return ["De qual analista é o projeto?", ANAS.filter((x) => ps.some((p) => p.analista === x.id)).map((x) => [x.nome, "lista-ana:" + x.id])];
+  if (tipo === "lista-ana") return [`Projetos de ${esc(ana.nome)}:`, doAna(ana.id).map((p) => [p.nome, "proj:" + slug(p)])];
+  if (tipo === "resumo" || tipo === "resumo-ana") { const l = doAna(ana && ana.id), eu = porQuem();
+    const et = FLUXO.map((k) => [k, l.filter((x) => norm(x.etapa) === k).length]).filter(([, n]) => n).map(([k, n]) => `${n} em ${sig(k)}`).join(", ");
+    const at = pontosAtencao(l).length, pr = proximas(l).filter((it) => diaN(it.d.entrega) >= 0).length;
+    return [`${ana ? `<b>${esc(ana.nome)}</b> tem` : "Ao todo, são"} <b>${l.length} projetos</b>${et ? ` (${et})` : ""}.<br>${pr} entrega${pr === 1 ? "" : "s"} nas próximas 2 semanas e ${at} ponto${at === 1 ? "" : "s"} com data já passada.`,
+      [!ana && eu ? [`Resumo dos projetos de ${eu.nome}`, "resumo-ana:" + eu.id] : null, ["O que está atrasado?", ana ? "atrasos-ana:" + ana.id : "atrasos"], ["Próximas entregas", ana ? "entregas-ana:" + ana.id : "entregas"], voltar].filter(Boolean)]; }
+  if (tipo === "atrasos" || tipo === "atrasos-ana") { const it = pontosAtencao(doAna(ana && ana.id)), quemTxt = ana ? ` de ${esc(ana.nome)}` : "";
+    return [it.length ? `Estes pontos${quemTxt} estão com a data prevista já passada:<br>${it.slice(0, 8).map((i) => `• ${lnk(i.p)}: ${esc(i.txt)}`).join("<br>")}${it.length > 8 ? `<br>e mais ${it.length - 8}.` : ""}` : `Nada atrasado${quemTxt}.`, [["Por que algo fica atrasado?", "porque"], voltar]]; }
+  if (tipo === "porque") return ["Uma entrega aparece como atrasada quando a data prevista no Notion já passou e a disciplina ainda não foi postada. Uma etapa fica com prazo vencido quando a data de entrega da etapa passou e o projeto continua nela.<br>Primeiro, vale conferir se o projeto tem <b>pendências</b> para liberar a próxima etapa, porque elas costumam segurar o andamento. Se estiver tudo em dia, recomendo falar com alguém da equipe da EXP para entender o motivo.", [["Ver pendências de um projeto", "escolher"], voltar]];
+  if (tipo === "entregas" || tipo === "entregas-ana") { const l = proximas(doAna(ana && ana.id)).filter((it) => diaN(it.d.entrega) >= 0), quemTxt = ana ? ` de ${esc(ana.nome)}` : "";
+    return [l.length ? `Próximas entregas${quemTxt} (2 semanas):<br>${l.slice(0, 8).map(({ p, d }) => `• ${data(d.entrega).slice(0, 5)} · ${lnk(p)} · ${esc(disc(d.sigla).nome)}`).join("<br>")}${l.length > 8 ? `<br>e mais ${l.length - 8}.` : ""}` : `Nenhuma entrega${quemTxt} nas próximas 2 semanas.`,
+      ana || !COM_ANA ? [voltar] : [["Só de um analista", "entregas-escolher"], voltar]]; }
+  if (tipo === "entregas-escolher") return ["De qual analista?", ANAS.filter((x) => ps.some((p) => p.analista === x.id)).map((x) => [x.nome, "entregas-ana:" + x.id])];
+  if (tipo === "legal") { const cont = {}, tipos = new Set(); ps.forEach((x) => legaisGraf(x).forEach(({ nome, l }) => { tipos.add(nome); const k = stLegal(l.status)[0]; cont[k] = (cont[k] || 0) + 1; }));
+    const e = Object.entries(cont).sort((a, b) => b[1] - a[1]), tl = [...tipos], tTxt = tl.length > 1 ? tl.slice(0, -1).join(", ") + " e " + tl.at(-1) : tl[0];
+    return [e.length ? `Legalização (${esc(tTxt)}):<br>${e.map(([k, n]) => `• ${esc(k)}: ${n}`).join("<br>")}` : "Ainda não há cartões de legalização.", [["Ver o gráfico de legalização", "abrir:indicadores"], voltar]]; }
+  return ["Não encontrei isso nos dados do painel.", MENU()];
+}
+// Pergunta escrita: tenta encaixar no roteiro; se não der, explica e oferece as perguntas prontas
+function interpretar(q) {
+  const t = norm(q), r = rota();
+  if (/\b(ESTE|ESSE|DESTE|DESSE)\b/.test(t)) return r.p ? "proj:" + slug(r.p) : "escolher";
+  const p = acharProjeto(q), ana = ANAS.find((a) => palavras(a.nome).some((w) => palavras(q).includes(w)));
+  if (p && /PENDEN/.test(t)) return "pend:" + slug(p);
+  if (p) return "proj:" + slug(p);
+  if (/ATRAS|VENCID|PASSAD/.test(t)) return ana ? "atrasos-ana:" + ana.id : "atrasos";
+  if (/ENTREG|SEMANA|PROXIM|POSTA/.test(t)) return ana ? "entregas-ana:" + ana.id : "entregas";
+  if (/LEGAL|PROTOCOL|APROVA|BOMBEIRO/.test(t)) return "legal";
+  if (ana || /RESUMO|GERAL|VISAO|ANDAMENTO|TUDO/.test(t)) return ana ? "resumo-ana:" + ana.id : "resumo";
+  if (/PROJETO/.test(t)) return "escolher";
+  return null;
+}
+function montarAssistente() {
+  if ($("#assist")) return;
+  const el = document.createElement("div"); el.id = "assist";
+  el.innerHTML = `<button class="as-btn" id="asBtn" aria-expanded="false" aria-controls="asPainel">${icoBrilho}<span>Expertinho</span></button>
+<section class="as-painel" id="asPainel" hidden aria-label="Expertinho, assistente do painel">
+  <header><span class="as-ico">${icoBrilho}</span><div><b>Expertinho</b><small>Assistente do painel · responde com os dados do site</small></div><button class="as-x" id="asFechar" aria-label="Fechar">×</button></header>
+  <div class="as-msgs" id="asMsgs"></div>
+  <form class="as-form" id="asForm"><input id="asQ" autocomplete="off" placeholder="Ou escreva sua pergunta…" aria-label="Pergunta"><button aria-label="Enviar">${chevron}</button></form>
+</section>`;
+  document.body.appendChild(el);
+  const ops = (l) => (l && l.length ? `<div class="as-ops">${l.map(([t, a]) => `<button data-acao="${esc(a)}">${esc(t)}</button>`).join("")}</div>` : "");
+  const falar = (html, l) => { const m = $("#asMsgs"); m.querySelectorAll(".as-ops").forEach((x) => x.remove()); m.insertAdjacentHTML("beforeend", `<div class="as-m bot">${html}</div>${ops(l)}`); m.scrollTop = m.scrollHeight; };
+  const eu = (t) => $("#asMsgs").insertAdjacentHTML("beforeend", `<p class="as-m eu">${esc(t)}</p>`);
+  const abrir = () => { const p = $("#asPainel"); p.hidden = false; $("#asBtn").setAttribute("aria-expanded", "true");
+    if (!$("#asMsgs").children.length) { const pq = porQuem(); falar(`Oi${pq ? `, ${esc(pq.nome)}` : ""}! Eu sou o <b>Expertinho</b>, o assistente do painel da EXP. Posso resumir o andamento, mostrar o que está atrasado ou contar como está cada projeto. É só escolher uma pergunta:`, MENU()); } };
+  $("#asBtn").onclick = () => ($("#asPainel").hidden ? abrir() : ($("#asPainel").hidden = true, $("#asBtn").setAttribute("aria-expanded", "false")));
+  $("#asFechar").onclick = () => { $("#asPainel").hidden = true; $("#asBtn").setAttribute("aria-expanded", "false"); };
+  $("#asForm").addEventListener("submit", (e) => { e.preventDefault(); const q = $("#asQ").value.trim(); if (!q) return; $("#asQ").value = ""; eu(q);
+    const a = interpretar(q);
+    if (a) falar(...acao(a)); else falar("Essa eu ainda não sei responder, porque ela vai além dos dados que o painel mostra. Para isso, fale com a equipe da EXP. Aqui estão as perguntas que eu sei responder:", MENU()); });
+  el.addEventListener("click", (e) => { const b = e.target.closest("[data-acao]"); if (!b) return; eu(b.textContent); const a = b.dataset.acao;
+    if (a === "abrir:indicadores") { location.hash = "indicadores"; falar("Abri a aba Indicadores, com o gráfico de legalização.", [["Ver outras perguntas", "menu"]]); return; }
+    falar(...acao(a)); });
+}
+
+// ====== Personalização: quem está acessando (guardado só neste navegador) ======
+const quem = () => { try { return localStorage.getItem("quem-repasse") || ""; } catch (e) { return ""; } };
+function setQuem(v) {
+  try { v ? localStorage.setItem("quem-repasse", v) : localStorage.removeItem("quem-repasse"); } catch (e) {}
+  ganttAna = v && v !== "todos" ? v : "todos";
+  const m = $("#asMsgs"); if (m) m.innerHTML = "";
+  render();
+}
+document.addEventListener("click", (e) => { const b = e.target.closest("[data-quem]"); if (b) { e.preventDefault(); setQuem(b.dataset.quem); } });
+
+// ====== Início: boas-vindas ======
+function pgInicio() {
+  const todos = base(), q = COM_ANA ? quem() : "todos", eu = porQuem();
+  const ps = eu ? todos.filter((p) => p.analista === eu.id) : todos;
+  const anas = ANAS.filter((a) => todos.some((p) => p.analista === a.id));
+  const prox = proximas(ps), futuras = prox.filter((it) => diaN(it.d.entrega) >= 0), atrasadas = prox.filter((it) => diaN(it.d.entrega) < 0);
+  const comPend = ps.filter((p) => pendentes(p).length).length;
+  const clientes = (DADOS.clientes || []).length ? DADOS.clientes : CFG.clientes;
+  const seus = eu ? "seus " : "";
+  const kpi = (n, t, s) => `<div class="kpi-b"><b class="num">${n}</b><span>${t}</span>${s ? `<small>${s}</small>` : ""}</div>`;
+  const atalho = (href, ico, t, d) => `<a class="atalho" href="${href}"><span class="ai">${ico}</span><span class="at"><b>${t}</b><small>${d}</small></span><span class="seta">${chevron}</span></a>`;
+  // Atrasadas primeiro, sempre com o motivo; depois as próximas
+  const linha = ({ p, d }) => { const m = disc(d.sigla), n = diaN(d.entrega);
+    const quando = n < 0 ? `atrasada há ${-n} dia${n < -1 ? "s" : ""}` : n === 0 ? "hoje" : n === 1 ? "amanhã" : `em ${n} dias`;
+    return `<a class="mini-e${n < 0 ? " atr" : ""}" href="#${slug(p)}"><span class="md num"><b>${d.entrega.slice(8, 10)}/${d.entrega.slice(5, 7)}</b><small>${quando}</small></span><span class="mn"><b>${esc(p.nome)}</b><small style="color:${m.cor}">${esc(m.nome)}${eu || !COM_ANA ? "" : ` <i>· ${esc(anaDe(p.analista).nome)}</i>`}</small></span>${etq(d.etapa)}</a>`; };
+  const lista = [...atrasadas.slice(0, 3), ...futuras.slice(0, 7 - Math.min(3, atrasadas.length))].map(linha).join("");
+  const escolha = COM_ANA && !q ? `<section class="card quem"><div><h2 class="t">Quem está acessando?</h2><p>Escolha seu nome para o painel mostrar primeiro os seus projetos. Fica guardado só neste navegador e dá para trocar quando quiser.</p></div>
+  <div class="quem-op">${anas.map((a) => `<button data-quem="${a.id}">${icoPasta}${esc(a.nome)}</button>`).join("")}<button class="todos" data-quem="todos">Ver todos os projetos</button></div></section>` : "";
+  return `<section class="view inicio">
+<header class="boas">
+  <div class="par"><img class="lg-exp so-claro" src="logo-exp-tagline.png" alt="EXP BR · Projete com experts."><img class="lg-exp so-escuro" src="logo-exp-tagline-branco.png" alt="EXP BR · Projete com experts."><span class="vezes">×</span>${CFG.logos}</div>
+  <h1>Bem-vindos, <span>${clientes.map(esc).join(" e ")}</span>.</h1>
+  <p class="lead">Este é o <b class="seu">seu</b> espaço da EXP para acompanharmos juntos cada projeto da nossa parceria: o andamento das disciplinas, as próximas entregas, a legalização e os indicadores de produção.</p>
+  ${eu ? `<p class="ola">Olá, <b>${esc(eu.nome)}</b>! Seus ${ps.length} projetos aparecem primeiro. <a href="#" data-quem="">Não é você?</a></p>` : COM_ANA && q === "todos" ? `<p class="ola">Mostrando todos os projetos. <a href="#" data-quem="">Escolher meu nome</a></p>` : ""}
+  ${selo()}
+</header>
+${escolha}
+<div class="kpis4">${kpi(ps.length, `${seus}projetos acompanhados`)}${kpi(futuras.length, "entregas nas próximas 2 semanas")}${kpi(atrasadas.length, "entregas atrasadas", "data prevista já passou")}${kpi(comPend, "projetos com pendências", "para a próxima etapa")}</div>
+${CFG.focoLegal ? blocoLegalInicio(ps) : ""}
+<div class="atalhos">
+  ${atalho(eu ? "#a-" + eu.id : "#coordenacao", icoCoord, "Coordenação", eu ? "Andamento, entregas e pendências dos seus projetos" : COM_ANA ? "Andamento, entregas e pendências por analista e por projeto" : "Andamento, entregas e pendências de cada projeto")}
+  ${atalho(eu ? "#a-" + eu.id + "/indicadores" : "#indicadores", icoInd, "Indicadores", "Cronograma de produção e gráficos de status")}
+  ${atalho("#sobre", icoSobre, "Sobre a EXP", "Quem somos e como trabalhamos")}
+</div>
+<div class="duas-i3">
+  <section class="card bloco"><header><h2 class="t">Próximas entregas</h2><a class="ver" href="${eu ? "#a-" + eu.id : "#coordenacao"}">Ver todas ${chevron}</a></header><div class="mini-lista">${lista || '<p class="vazio">Nenhuma entrega programada nas próximas 2 semanas.</p>'}</div>
+</section>
+  ${blocoComoFunciona()}
+</div>
+</section>`;
+}
+
+// ====== Indicadores ======
+function pgIndicadores(a) {
+  const ps = base().filter((p) => (!a || p.analista === a.id) && visivel(p));
+  const cab = a ? `<nav class="trilha" aria-label="Você está em"><a href="#coordenacao">Coordenação</a><span>›</span><span>Analistas</span></nav>
+<header class="cab-ana"><h1>${icoPasta}${esc(a.nome)}</h1><div class="meta"><span>Analista · ${ps.length} projeto${ps.length === 1 ? "" : "s"}</span></div></header>${subAbas("a-" + a.id, "indicadores")}`
+    : cabMin(`Indicadores · ${ps.length} projetos`, "Indicadores");
+  return `<section class="view">${cab}
+<section class="graficos"><div class="sec-h"><div><p class="eyebrow">Linha do tempo</p><h2 class="t">Cronograma de produção</h2></div></div>
+  <div class="card gcard">${gantt(ps, false, !a && COM_ANA)}</div></section>
+${blocoGraficos(ps)}
+</section>`;
+}
+
+// ====== Gantt ======
+// Cada barra é uma etapa de um projeto (início → fim), com nome, etapa e data final escritos nela
+let ganttZoom = "mes", ganttAna = "todos", ganttFeitas = false;
+try { const q0 = localStorage.getItem("quem-repasse"); if (CFG.analistas && q0 && q0 !== "todos") ganttAna = q0; } catch (e) {}
+const ZOOM = { quinzena: ["Quinzena", 36], mes: ["Mês", 18], trimestre: ["Trimestre", 7] };
+const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+const tms = (iso) => Date.parse(iso + "T12:00:00Z");
+function gantt(projs, umProjeto, comFiltro) {
+  const hoje = hojeISO(), px = ZOOM[ganttZoom][1];
+  // Geral: uma barra por projeto (linha COOR). No projeto: a etapa global e uma barra por disciplina
+  let itens = umProjeto
+    ? [...(projs[0].cronograma || []).map((c) => ({ ...c, k: norm(c.etapa), p: projs[0], rot: "Projeto · etapa global" })),
+       ...projs[0].disciplinas.filter((d) => d.inicio && d.fim).sort((a, b) => a.inicio.localeCompare(b.inicio) || posDisc(a.sigla) - posDisc(b.sigla))
+         .map((d) => ({ etapa: d.etapa, inicio: d.inicio, fim: d.fim, k: norm(d.etapa), p: projs[0], rot: disc(d.sigla).nome, feita: stNorm(d.status) === "POSTADO" }))]
+    : projs.flatMap((p) => (p.cronograma || []).map((c) => ({ ...c, k: norm(c.etapa), p })));
+  if (!itens.length) return '<p class="vazio">Ainda não há cronograma cadastrado no Notion para estes projetos.</p>';
+  const estado = (i) => i.feita ? "feita" : i.inicio > hoje ? "futura" : i.fim >= hoje ? "atual" : umProjeto || norm(i.p.etapa) === i.k ? "atrasada" : "feita";
+  if (comFiltro && ganttAna !== "todos") itens = itens.filter((i) => i.p.analista === ganttAna);
+  const nFeitas = itens.filter((i) => estado(i) === "feita").length;
+  if (!umProjeto && !ganttFeitas) itens = itens.filter((i) => estado(i) !== "feita");
+  if (!umProjeto) itens.sort((a, b) => a.inicio.localeCompare(b.inicio) || a.p.nome.localeCompare(b.p.nome));
+  const base = itens.length ? itens : [{ inicio: hoje, fim: hoje }];
+  let ini = Math.min(...base.map((c) => tms(c.inicio)), tms(hoje)) - 7 * 864e5;
+  ini -= ((new Date(ini).getUTCDay() + 6) % 7) * 864e5; // começa numa segunda-feira
+  const fim = Math.max(...base.map((c) => tms(c.fim)), tms(hoje)) + 28 * 864e5;
+  const dias = Math.round((fim - ini) / 864e5), W = Math.round(dias * px), x = (iso) => Math.round((tms(iso) - ini) / 864e5 * px);
+  const meses = [], semanas = [];
+  for (let i = 0; i < dias; i++) {
+    const dt = new Date(ini + i * 864e5), X = Math.round(i * px);
+    if (dt.getUTCDate() === 1 || (i === 0 && (new Date(Date.UTC(dt.getUTCFullYear(), dt.getUTCMonth() + 1, 1)) - dt) / 864e5 * px > 70)) meses.push(`<span style="left:${X}px">${MESES[dt.getUTCMonth()]} ${dt.getUTCFullYear()}</span>`);
+    if (dt.getUTCDay() === 1 && 7 * px >= 45) semanas.push(`<span style="left:${X}px">${String(dt.getUTCDate()).padStart(2, "0")}/${String(dt.getUTCMonth() + 1).padStart(2, "0")}</span>`);
+  }
+  const fundo = `background-image:repeating-linear-gradient(90deg,var(--gn-linha) 0 1px,transparent 1px ${7 * px}px)${ganttZoom !== "trimestre" ? `,repeating-linear-gradient(90deg,transparent 0 ${5 * px}px,var(--gn-fds) ${5 * px}px ${7 * px}px)` : ""}`;
+  const linhas = itens.map((i) => {
+    const e = estado(i), w = Math.max(x(i.fim) - x(i.inicio) + px, 6);
+    const nome = esc(umProjeto ? i.rot : i.p.nome);
+    const tip = `${umProjeto ? i.rot : i.p.nome} · ${sig(i.k)} ${etapa(i.k).nome}: ${data(i.inicio)} → ${data(i.fim)}${e === "atrasada" ? " (prazo vencido)" : e === "feita" && umProjeto ? " (postado)" : ""}`;
+    const tag = umProjeto ? "div" : "a";
+    const fora = (umProjeto ? i.rot : i.p.nome).length * 7.4 + 112 > w; // texto não cabe na barra: vai logo depois dela
+    const xt = fora ? x(i.inicio) + w + 8 : x(i.inicio) + 10;
+    return `<${tag} class="gn-row"${umProjeto ? "" : ` href="#${slug(i.p)}/indicadores"`} data-tip="${esc(tip)}"><i class="gn-b ${e}" style="left:${x(i.inicio)}px;width:${w}px"></i><span class="gn-txt ${e}${fora ? " fora" : ""}${umProjeto && !i.feita && i.rot.startsWith("Projeto") ? " proj" : ""}" data-x="${xt}" data-fim="${fora ? xt : x(i.inicio) + w}" style="left:${xt}px"><b>${nome}</b><em style="--c:${etapa(i.k).cor}">${sig(i.k)}</em><span>${e === "futura" ? "previsto até" : "até"} ${data(i.fim).slice(0, 5)}</span></span></${tag}>`;
+  }).join("") || '<p class="vazio">Nenhuma etapa em andamento ou prevista para esse filtro.</p>';
+  const anas = ANAS.filter((a) => projs.some((p) => p.analista === a.id));
+  return `<div class="gantt">
+  <div class="gn-ctrl">
+    <div class="gn-zoom" role="group" aria-label="Escala">${Object.entries(ZOOM).map(([k, [t]]) => `<button data-zoom="${k}" aria-pressed="${ganttZoom === k}">${t}</button>`).join("")}</div>
+    <button class="gn-hoje" data-hoje>Hoje</button>
+    ${comFiltro ? `<label class="gn-sel">Analista <select id="gnAna"><option value="todos">Todos</option>${anas.map((a) => `<option value="${a.id}"${ganttAna === a.id ? " selected" : ""}>${esc(a.nome)}</option>`).join("")}</select></label>` : ""}
+    ${umProjeto || !nFeitas ? "" : `<label class="gn-chk"><input type="checkbox" id="gnFeitas"${ganttFeitas ? " checked" : ""}> Mostrar etapas concluídas${nFeitas ? ` (${nFeitas})` : ""}</label>`}
+    <div class="gleg gn-leg"><span><i class="lg-atual"></i>Em andamento</span><span><i class="lg-futura"></i>Prevista</span><span><i class="lg-feita"></i>Concluída</span><span><i class="lg-atrasada"></i>Prazo vencido</span><span><i class="lg-hoje"></i>Hoje</span></div>
+  </div>
+  <div class="gn-scroll" data-hoje-x="${x(hoje)}"><div class="gn-area" style="width:${W}px">
+    <div class="gn-cab"><div class="gn-meses">${meses.join("")}</div><div class="gn-sem">${semanas.join("")}</div></div>
+    <div class="gn-corpo" style="${fundo}">${linhas}</div>
+    <i class="gn-hj" style="left:${x(hoje) + px / 2}px"></i>
+  </div></div>
+</div>`;
+}
+function focoHoje(sc) { const xh = Number(sc.dataset.hojeX || 0); sc.scrollLeft = Math.max(0, xh - sc.clientWidth * 0.25); fixarTextos(sc); }
+// O texto da barra acompanha a rolagem: se o começo da barra saiu da tela, o nome continua visível na borda esquerda
+function fixarTextos(sc) {
+  const L = sc.scrollLeft + 10;
+  sc.querySelectorAll(".gn-txt").forEach((t) => { const x0 = +t.dataset.x, x1 = +t.dataset.fim; t.style.left = (x0 < L && x1 > L + 40 ? L : x0) + "px"; });
+}
+document.addEventListener("scroll", (e) => { if (e.target.classList && e.target.classList.contains("gn-scroll")) fixarTextos(e.target); }, true);
+document.addEventListener("change", (e) => { if (e.target.id === "gnAna") { ganttAna = e.target.value; render(true); } if (e.target.id === "gnFeitas") { ganttFeitas = e.target.checked; render(true); } });
+document.addEventListener("click", (e) => {
+  const z = e.target.closest("[data-zoom]"); if (z) { ganttZoom = z.dataset.zoom; render(true); return; }
+  const h = e.target.closest("[data-hoje]"); if (h) { const sc = h.closest(".gantt").querySelector(".gn-scroll"); focoHoje(sc); }
+});
+
+// X da marca ao lado do cabeçalho do Início: mesma altura do cabeçalho, mostrando só a parte esquerda do X
+function posicionarX() {
+  const d = $("#decoX"), b = $(".boas"); if (!d || d.hidden || !b) return;
+  const top = b.getBoundingClientRect().top - $(".main").getBoundingClientRect().top, h = b.offsetHeight;
+  d.style.top = top + "px"; d.style.height = h + "px"; d.style.width = Math.round(h * 1054 / 1077 * 0.43) + "px";
+}
+addEventListener("resize", posicionarX);
+// ====== Barra lateral ======
+const icoGeral = `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>`;
+const icoSobre = `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5" stroke-linecap="round"/></svg>`;
+function montarMenu() {
+  $("#chips").innerHTML = [["all", "Todas"], ...FLUXO.map((k) => [k, sig(k)])].map(([k, t]) => `<button data-f="${k}" aria-pressed="${filtro === k}" ${k !== "all" ? `title="${ETAPAS[k].nome}"` : ""}>${k !== "all" ? `<i style="background:${ETAPAS[k].cor}"></i>` : ""}${t}</button>`).join("");
+  const r = rota(), lista = base().filter(visivel);
+  if (r.p) abertas.add(r.p.analista); if (r.a) abertas.add(r.a.id); if (quem() && quem() !== "todos" && !montarMenu.feito) { abertas.add(quem()); montarMenu.feito = true; } if (acesso !== "gestao") abertas.add(acesso);
+  const item = (p) => `<li><a href="#${slug(p)}" data-r="${slug(p)}"><span class="nm"><span>${esc(rotulo(p).join(" · "))}</span><small>${[subProj(p, false), esc(etapa(p.etapa).nome)].filter(Boolean).join(" · ")}</small></span><em class="tag" style="background:${etapa(p.etapa).cor}">${esc(sig(norm(p.etapa)) || "—")}</em></a></li>`;
+  const ids = [...new Set(base().map((p) => p.analista))];
+  const pastas = !COM_ANA ? lista.map(item).join("") : ANAS.filter((a) => ids.includes(a.id)).map((a) => {
+    const ps = lista.filter((p) => p.analista === a.id); if (!ps.length) return "";
+    const aberta = abertas.has(a.id) || !!busca;
+    return `<li class="pasta${aberta ? " aberta" : ""}"><div class="pasta-h"><a href="#a-${a.id}" data-r="a-${a.id}">${icoPasta}<span class="nm"><span>${esc(a.nome)}</span></span><em class="cont num">${ps.length}</em></a><button data-pasta="${a.id}" aria-expanded="${aberta}" aria-label="${aberta ? "Fechar" : "Abrir"} a pasta de ${esc(a.nome)}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button></div>${aberta ? `<ul class="sub">${ps.map(item).join("")}</ul>` : ""}</li>`;
+  }).join("");
+  $("#nav").innerHTML = `<ul class="abas">${ABAS.map(([id, t, i]) => `<li><a class="aba" href="#${id}" data-aba="${id}">${i}<span class="nm"><span>${t}</span></span></a></li>`).join("")}</ul><div class="sep-abas"></div>
+<h3><span>${!COM_ANA ? "Projetos" : acesso === "gestao" ? "Analistas" : "Meus projetos"}</span><span class="num">${lista.length} projeto${lista.length === 1 ? "" : "s"}</span></h3><ul>${pastas || '<li class="empty">Nenhum projeto encontrado.</li>'}</ul>
+<h3><span>EXP BR</span></h3><ul><li><a href="#sobre" data-r="sobre">${icoSobre}<span class="nm"><span>Sobre a EXP</span></span></a></li></ul>`;
+  marcarAtual();
+}
+function marcarAtual() {
+  const r = rota();
+  $$("#nav a").forEach((a) => ((a.dataset.r && a.dataset.r === r.id) || (a.dataset.aba && a.dataset.aba === r.sec) ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current")));
+  $("#nav a[aria-current]")?.scrollIntoView({ block: "nearest" });
+}
+
+// ====== Rotas ======
+function rota() {
+  const [h, subRaw] = decodeURIComponent(location.hash.slice(1)).toLowerCase().split("/");
+  const sub = SUBABAS.some(([id]) => id && id === subRaw) ? subRaw : "";
+  if (h === "sobre") return { id: "sobre", sec: "" };
+  if (h === "visao-geral") return { id: "coordenacao", sec: "coordenacao" }; // links antigos
+  if (ABAS.some(([id]) => id === h)) return { id: h, sec: h };
+  if (h.startsWith("a-")) { const a = ANAS.find((x) => "a-" + x.id === h); if (a) return { id: h, a, sub, sec: sub || "coordenacao" }; }
+  const p = base().find((x) => slug(x) === h);
+  if (p) return { id: h, p, sub, sec: sub || "coordenacao" };
+  return { id: "inicio", sec: "inicio" };
+}
+let rotaAnterior = "";
+function render(manterScroll = false) {
+  if (!DADOS) return;
+  const r = rota();
+  const el = $("#conteudo");
+  const sa = SUBABAS.find(([id]) => id === (r.sub || "")), aba = ABAS.find(([id]) => id === r.id);
+  el.innerHTML = r.p ? sa[4](r.p) : r.a ? sa[3](r.a) : r.id === "sobre" ? pgSobre() : (aba || ABAS[0])[3]();
+  $$(".gn-scroll").forEach(focoHoje);
+  $("#decoX").hidden = r.id !== "inicio"; posicionarX();
+  $("#abasM").innerHTML = ABAS.map(([id, t, i]) => `<a href="#${id}"${r.sec === id ? ' aria-current="page"' : ""}>${i}<span>${t}</span></a>`).join("");
+  const titulo = r.p ? rotulo(r.p).join(" · ") : r.a ? r.a.nome : { sobre: "Sobre a EXP", coordenacao: "Coordenação", indicadores: "Indicadores" }[r.id] || "Início";
+  document.title = `${titulo} · ${CFG.titulo}`;
+  $("#mtitulo").textContent = titulo;
+  if (!manterScroll && rotaAnterior !== location.hash) window.scrollTo({ top: 0 });
+  rotaAnterior = location.hash;
+  montarMenu();
+  $("#app").classList.remove("aberto");
+}
+function demoBar() { // só no protótipo: simula o acesso de cada analista
+  return `<div class="demo"><span><b>Protótipo com dados fictícios.</b> No site real, todos usam o mesmo link.</span><label for="verComo">Ver como <select id="verComo"><option value="gestao"${acesso === "gestao" ? " selected" : ""}>Gestão (todos)</option>${ANAS.map((a) => `<option value="${a.id}"${acesso === a.id ? " selected" : ""}>${esc(a.nome)}</option>`).join("")}</select></label></div>`;
+}
+addEventListener("hashchange", () => render());
+document.addEventListener("change", (e) => { if (e.target.id === "verComo") { acesso = e.target.value; abertas.clear(); location.hash = acesso === "gestao" ? "visao-geral" : "a-" + acesso; render(); } });
+
+// Filtros (barra lateral e blocos de etapa na visão geral usam o mesmo estado)
+const comFiltro = (r) => !r.p && !["sobre", "inicio"].includes(r.id);
+function setFiltro(f) { filtro = filtro === f && f !== "all" ? "all" : f; const r = rota(); if (comFiltro(r)) render(true); else montarMenu(); }
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-f]");
+  if (b) { setFiltro(b.dataset.f); return; }
+  const pz = e.target.closest("[data-pasta]");
+  if (pz) { const id = pz.dataset.pasta; abertas.has(id) ? abertas.delete(id) : abertas.add(id); montarMenu(); return; }
+  if (e.target.id === "limpar") { e.preventDefault(); filtro = "all"; busca = ""; $("#q").value = ""; montarMenu(); render(true); }
+});
+$("#q").addEventListener("input", (e) => { busca = norm(e.target.value); const r = rota(); if (comFiltro(r)) render(true); else montarMenu(); });
+$("#menuBtn").onclick = () => $("#app").classList.add("aberto");
+$("#scrim").onclick = () => $("#app").classList.remove("aberto");
+addEventListener("keydown", (e) => { if (e.key === "Escape") $("#app").classList.remove("aberto"); });
+
+// ====== Dados: Notion ao vivo, com os dados de exemplo como reserva ======
+function marcarFonte(tipo, texto, dica) {
+  fonte = { tipo, texto };
+  $("#dot").className = "dot " + tipo; $("#fonte").textContent = texto; $("#fonte").parentElement.title = dica || "";
+}
+let ultimo = "";
+function aplicar(d) {
+  montarAssistente();
+  const et = (e) => { const k = norm(e); return ETAPA_ALIAS[k] || e; };
+  (d.projetos || []).forEach((p) => { p.etapa = et(p.etapa); p.disciplinas.forEach((x) => (x.etapa = et(x.etapa))); (p.cronograma || []).forEach((c) => (c.etapa = et(c.etapa))); });
+  DADOS = d; PROJS = ordenarProj(d.projetos || []);
+  ANAS = COM_ANA ? [...(d.analistas || [])].sort((a, b) => a.nome.localeCompare(b.nome)) : [];
+  GRUPOS_LEGAL = TODOS_LEGAL.filter(([, , s], i) => i < 2 || PROJS.some((p) => p.legal.some((l) => s.includes(norm(l.sigla)))));
+  GRUPOS_GRAF_LEGAL = GRUPOS_LEGAL.map(([nome, , s]) => [nome, s[0], s]);
+  render(true);
+}
+async function carregar() {
+  try {
+    const r = await fetch("/api/dados", { cache: "no-store" });
+    const j = await r.json();
+    if (!r.ok || j.erro) throw new Error(j.erro || "HTTP " + r.status);
+    marcarFonte("vivo", "Conectado ao Notion", "Os dados são lidos do Notion e atualizados a cada poucos minutos.");
+    const txt = JSON.stringify([j.projetos, j.opcoesPendencias]);
+    if (txt !== ultimo) { ultimo = txt; aplicar(j); } else if (["coordenacao", "inicio", "indicadores"].includes(rota().id)) { DADOS.atualizado = j.atualizado; render(true); }
+  } catch (e) {
+    if (!DADOS || DADOS.fonte === "exemplo") {
+      marcarFonte("exemplo", "Dados de exemplo", "Sem conexão com o Notion: " + e.message);
+      if (!DADOS) aplicar(EXEMPLO);
+    } else {
+      marcarFonte("", "Notion indisponível · última leitura", e.message);
+    }
+  }
+}
+carregar();
+setInterval(carregar, ATUALIZAR_A_CADA_MIN * 60 * 1000);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") carregar(); });
+</script>
+</body>
+</html>
