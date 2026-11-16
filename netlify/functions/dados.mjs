@@ -211,7 +211,10 @@ function filtroTexto(esquema, nome, cond) {
   return { property: nome, [p.type]: cond };
 }
 
-export default async () => {
+// GET: resposta guardada no cache do Netlify por alguns minutos.
+// POST: botão "Atualizar" do site; lê o Notion na hora e não usa nem grava cache (o Netlify nunca guarda POST).
+export default async (req) => {
+  const forcar = req?.method === "POST";
   const faltando = ["NOTION_TOKEN", "NOTION_DB_PROJETOS"].filter((k) => !env(k));
   if (faltando.length) {
     return Response.json({ erro: `Configuração incompleta no Netlify: ${faltando.join(", ")}` }, { status: 503 });
@@ -354,6 +357,40 @@ export default async () => {
       }
     }
 
+    // Um projeto por empreendimento: junta cartões COOR repetidos (mesmo código, ou mesmo cliente e nome)
+    // e COOR que seja sub-item de outro COOR (cópia, modelo ou protocolo com Disciplina = COOR).
+    // Fica o cartão com mais dados; o aviso diz quais cartões foram ignorados, para limpar no Notion.
+    {
+      const relPai = (pg) => Object.entries(pg.properties).filter(([k, p]) => p.type === "relation" && /^(parent|item principal|item pai)/i.test(semAcento(k))).flatMap(([, p]) => p.relation.map((r) => r.id));
+      const pai = new Map(); // união: id → representante
+      const raiz = (id) => { while (pai.has(id) && pai.get(id) !== id) id = pai.get(id); return id; };
+      const unir = (a, b) => { const ra = raiz(a), rb = raiz(b); if (ra !== rb) pai.set(rb, ra); };
+      const porChave = new Map();
+      for (const p of projetos.values()) {
+        pai.set(p.id, raiz(p.id));
+        const chaves = [p.codigo && `c:${p.codigo}`, p.nome && `n:${semAcento(p.cliente || "")}|${semAcento(p.nome)}`].filter(Boolean);
+        for (const k of chaves) { if (porChave.has(k)) unir(porChave.get(k), p.id); else porChave.set(k, p.id); }
+      }
+      for (const pg of linhas) if (projetos.has(pg.id)) for (const id of relPai(pg)) if (id !== pg.id && projetos.has(id)) unir(id, pg.id);
+      const grupos = new Map();
+      for (const p of projetos.values()) { const r = raiz(p.id); grupos.set(r, [...(grupos.get(r) || []), p]); }
+      const urlDe = new Map(linhas.map((pg) => [pg.id, pg.url]));
+      const peso = (p) => p.disciplinas.length * 100 + p.legal.length * 10 + (p.etapa ? 4 : 0) + (p.status ? 2 : 0) + (p.cronograma.length ? 1 : 0);
+      const vazio = (v) => v == null || (Array.isArray(v) && !v.length);
+      for (const g of grupos.values()) {
+        if (g.length < 2) continue;
+        g.sort((a, b) => peso(b) - peso(a));
+        const [fica, ...sai] = g;
+        for (const d of sai) {
+          fica.disciplinas.push(...d.disciplinas);
+          fica.legal.push(...d.legal);
+          for (const [k, v] of Object.entries(d)) if (k !== "id" && vazio(fica[k]) && !vazio(v)) fica[k] = v;
+          projetos.delete(d.id);
+        }
+        avisos.push(`Cartão COOR repetido para "${fica.titulo}": ${g.length} cartões no Notion. Mantido ${urlDe.get(fica.id) || fica.id}; ignorado(s): ${sai.map((d) => `"${d.titulo}" ${urlDe.get(d.id) || d.id}`).join("; ")}. Confira se é cópia, modelo ou sub-item com Disciplina = COOR.`);
+      }
+    }
+
     // Lista completa de pendências possíveis = opções do campo de múltipla seleção, na ordem do Notion
     const campoPend = esqProj.properties[COLUNAS.pendencias];
     const opcoesPendencias = campoPend && campoPend.type === "multi_select"
@@ -375,7 +412,7 @@ export default async () => {
       avisos,
     };
     return Response.json(corpo, {
-      headers: {
+      headers: forcar ? { "Cache-Control": "no-store" } : {
         // O navegador sempre pergunta; o Netlify guarda a resposta por 5 minutos
         "Cache-Control": "public, max-age=0, must-revalidate",
         "Netlify-CDN-Cache-Control": `public, durable, s-maxage=${CACHE_SEGUNDOS}, stale-while-revalidate=${CACHE_SEGUNDOS}`,
