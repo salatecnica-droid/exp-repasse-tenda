@@ -30,6 +30,7 @@ const COLUNAS = {
   protData: "Data protocolo",
   protRetorno: "Prazo de retorno",
   protAprovacao: "Data aprovação protocolo",
+  protRetornoDoc: "Documento orgão", // arquivo devolvido pelo órgão: laudo de correção ou certificado de aprovação (opcional)
   // o protocolo usa também "Status Legal" e "Comprovante"; "Nº do Processo protocolo" nunca vai para o site
   // Nunca vão para o site (confidenciais/internos): "Nº Processo atual", "CNPJ", "O que fazer? (resumo)", "Notas"
   // Linha do tempo (Gantt): início e fim de cada cartão (mãe de projeto completo, cartão de Incêndio e disciplinas)
@@ -270,6 +271,7 @@ export default async (req) => {
     const cPData = colunaDe(props, COLUNAS.protData, /^DATA (DO )?PROTOCOLO$/i);
     const cPRet = colunaDe(props, COLUNAS.protRetorno, /^PRAZO DE RETORNO$/i);
     const cPAprov = colunaDe(props, COLUNAS.protAprovacao, /^DATA (DE )?APROVACAO (DO )?PROTOCOLO/i);
+    const cPDoc = colunaDe(props, COLUNAS.protRetornoDoc, /^DOCUMENTO (DO )?ORGAO/i, /^DOCUMENTO$/i, /^RETORNO DO ORGAO/i, /LAUDO/i, /CERTIFICADO/i);
     const doProtocolo = (pg) => {
       const d = {
         status: texto(prop(pg, COLUNAS.legalStatus)),
@@ -278,7 +280,8 @@ export default async (req) => {
         aprovacao: cPAprov ? isoDe(prop(pg, cPAprov)) : null,
         comprovante: cComp ? comprovanteDe(pg.properties[cComp]) : null,
       };
-      d.temDados = !!(d.protocolo || d.retorno || d.aprovacao || d.comprovante);
+      d.retornoDoc = cPDoc ? comprovanteDe(pg.properties[cPDoc]) : null; // laudo de correção ou certificado de aprovação
+      d.temDados = !!(d.protocolo || d.retorno || d.aprovacao || d.comprovante || d.retornoDoc);
       return d;
     };
     const protocolosPorCartao = new Map(); // id do cartão geral -> [protocolos], o mais recente primeiro
@@ -300,10 +303,13 @@ export default async (req) => {
       const prots = protocolosPorCartao.get(pg.id) || [];
       if (!prots.length) return geral;
       geral.protocolos = prots.length;
+      // Histórico para o site: todos os protocolos, o mais recente primeiro (n = 1 é o mais antigo). Sem nº do processo
+      geral.historico = prots.map((x, i) => ({ n: prots.length - i, atual: i === 0, status: x.status, protocolo: x.protocolo,
+        retorno: x.retorno, aprovacao: x.aprovacao, comprovante: x.comprovante || null, retornoDoc: x.retornoDoc || null }));
       const atual = prots[0]; // o mais recente (pela Data protocolo; sem data, pela criação do cartão)
       if (!atual.temDados) return geral; // protocolo atual ainda vazio: datas do cartão geral, sem comprovante
       // Protocolo atual com dados: substitui o cartão geral por inteiro (sem misturar datas de protocolos diferentes)
-      return { ...geral, status: atual.status || geral.status, protocolo: atual.protocolo, retorno: atual.retorno, aprovacao: atual.aprovacao,
+      return { ...geral, historico: geral.historico, status: atual.status || geral.status, protocolo: atual.protocolo, retorno: atual.retorno, aprovacao: atual.aprovacao,
         comprovante: atual.comprovante || null, fonte: "protocolo" };
     };
     // Protocolos (sub-itens dos cartões de legalização) não são disciplinas: ficam fora da lista
@@ -314,7 +320,7 @@ export default async (req) => {
     {
       const relProprias = Object.keys(props).filter((n) => props[n].type === "relation" &&
         [esqProj.id, idProj].includes(props[n].relation?.data_source_id || props[n].relation?.database_id));
-      const relSub = relProprias.filter((n) => /^sub.?ite|protocol/i.test(semAcento(n)));
+      const relSub = relProprias.filter((n) => /^sub.?(ite|proj)|protocol/i.test(semAcento(n))); // "sub-project" na base da EXP
       const ehTituloProtocolo = (pg) => /protocolo/i.test(titulo(pg));
       const idsCand = new Map(); // id candidato -> cartão geral
       const cartoes = linhas.filter((pg) => !ehCoor(pg) && !ehTituloProtocolo(pg) && texto(prop(pg, COLUNAS.legalStatus)));
