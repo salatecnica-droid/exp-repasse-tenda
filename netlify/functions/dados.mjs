@@ -282,6 +282,7 @@ export default async (req) => {
       return d;
     };
     const protocolosPorCartao = new Map(); // id do cartão geral -> [protocolos], o mais recente primeiro
+    const idsProtocolo = new Set(); // cartões de protocolo: nunca entram como disciplina
     const legalDaLinha = (pg, sigla) => {
       const subs = subitensDe(pg), protocolo = cProt ? isoDe(prop(pg, cProt)) : null;
       const geral = {
@@ -298,7 +299,7 @@ export default async (req) => {
       };
       const prots = protocolosPorCartao.get(pg.id) || [];
       if (!prots.length) return geral;
-      geral.protocolos = Math.max(subs.length, prots.length);
+      geral.protocolos = prots.length;
       const atual = prots[0]; // o mais recente (pela Data protocolo; sem data, pela criação do cartão)
       if (!atual.temDados) return geral; // protocolo atual ainda vazio: datas do cartão geral, sem comprovante
       // Protocolo atual com dados: substitui o cartão geral por inteiro (sem misturar datas de protocolos diferentes)
@@ -307,30 +308,38 @@ export default async (req) => {
     };
     // Protocolos (sub-itens dos cartões de legalização) não são disciplinas: ficam fora da lista
     const naoCoor = new Set(linhas.filter((x) => !ehCoor(x)).map((x) => x.id));
-    // Lê os cartões de protocolo: os que já vieram na consulta e os demais sub-itens dos cartões de legalização
+    // Lê os cartões de protocolo (filhos do cartão de legalização, criados pelo botão "Criar Protocolo").
+    // Não depende do nome da relação: usa as relações da base com ela mesma e reconhece o protocolo pelo
+    // código do projeto no título + "Protocolo" no nome (ou por estar numa relação de sub-itens).
     {
-      const idsProt = new Map(); // id do protocolo -> id do cartão geral
-      for (const pg of linhas) if (!ehCoor(pg) && texto(prop(pg, COLUNAS.legalStatus))) for (const id of subitensDe(pg)) idsProt.set(id, pg.id);
-      const achados = new Map(linhas.filter((x) => idsProt.has(x.id)).map((x) => [x.id, x]));
-      const faltam = [...idsProt.keys()].filter((id) => !achados.has(id));
-      if (faltam.length) { // uma consulta pelo nome do cliente no título; o que sobrar é lido página a página (até 60)
-        try { for (const pg of await consultar(esqProj.id, porTexto)) if (idsProt.has(pg.id)) achados.set(pg.id, pg); } catch (e) {}
-        const resto = [...idsProt.keys()].filter((id) => !achados.has(id)).slice(0, 60);
-        for (let i = 0; i < resto.length; i += 3) {
-          const lote = await Promise.all(resto.slice(i, i + 3).map((id) => notion(`/v1/pages/${id}`).catch(() => null)));
-          for (const pg of lote) if (pg?.id) achados.set(pg.id, pg);
-        }
+      const relProprias = Object.keys(props).filter((n) => props[n].type === "relation" &&
+        [esqProj.id, idProj].includes(props[n].relation?.data_source_id || props[n].relation?.database_id));
+      const relSub = relProprias.filter((n) => /^sub.?ite|protocol/i.test(semAcento(n)));
+      const ehTituloProtocolo = (pg) => /protocolo/i.test(titulo(pg));
+      const idsCand = new Map(); // id candidato -> cartão geral
+      const cartoes = linhas.filter((pg) => !ehCoor(pg) && !ehTituloProtocolo(pg) && texto(prop(pg, COLUNAS.legalStatus)));
+      for (const pg of cartoes) for (const n of relProprias) for (const r of pg.properties[n]?.relation || []) if (r.id !== pg.id) idsCand.set(r.id, { pai: pg, sub: relSub.includes(n) });
+      const porId = new Map(linhas.map((x) => [x.id, x]));
+      const resto = [...idsCand.keys()].filter((id) => !porId.has(id)).slice(0, 80);
+      for (let i = 0; i < resto.length; i += 3) {
+        const lote = await Promise.all(resto.slice(i, i + 3).map((id) => notion(`/v1/pages/${id}`).catch(() => null)));
+        for (const pg of lote) if (pg?.id) porId.set(pg.id, pg);
       }
-      for (const [id, pg] of achados) {
-        const pai = idsProt.get(id);
-        if (!protocolosPorCartao.has(pai)) protocolosPorCartao.set(pai, []);
-        protocolosPorCartao.get(pai).push({ ...doProtocolo(pg), criado: pg.created_time || "" });
+      let lidos = 0;
+      for (const [id, { pai, sub }] of idsCand) {
+        const pg = porId.get(id);
+        if (!pg || ehCoor(pg)) continue;
+        const mesmoCodigo = !codigoDe(titulo(pai)) || codigoDe(titulo(pg)) === codigoDe(titulo(pai));
+        if (!mesmoCodigo || !(ehTituloProtocolo(pg) || sub)) continue; // não é protocolo deste cartão
+        idsProtocolo.add(id); lidos++;
+        if (!protocolosPorCartao.has(pai.id)) protocolosPorCartao.set(pai.id, []);
+        protocolosPorCartao.get(pai.id).push({ ...doProtocolo(pg), criado: pg.created_time || "" });
       }
       for (const lista of protocolosPorCartao.values()) lista.sort((a, b) => String(b.protocolo || b.criado).localeCompare(String(a.protocolo || a.criado)));
-      const comDados = [...protocolosPorCartao.values()].filter((l) => l.some((x) => x.temDados)).length;
-      if (idsProt.size) avisos.push(`Protocolos: ${achados.size} de ${idsProt.size} cartões de protocolo lidos; ${comDados} cartões gerais usam o protocolo mais recente, os demais usam as próprias propriedades.${!cPData ? ` Coluna "${COLUNAS.protData}" não encontrada.` : ""}`);
+      const comDados = [...protocolosPorCartao.values()].filter((l) => l[0]?.temDados).length;
+      avisos.push(`Protocolos: ${lidos} cartões de protocolo encontrados em ${protocolosPorCartao.size} cartões de legalização; ${comDados} usam o protocolo mais recente. Relações da base com ela mesma: ${relProprias.join(", ") || "nenhuma"}.${!cPData ? ` Coluna "${COLUNAS.protData}" não encontrada.` : ""}`);
     }
-    const ehProtocolo = (pg) => !ehCoor(pg) && Object.values(pg.properties).some((p) => p.type === "relation" && /^(parent|item principal|item pai)/i.test(semAcento(Object.keys(pg.properties).find((k) => pg.properties[k] === p))) && p.relation.some((r) => naoCoor.has(r.id)));
+    const ehProtocolo = (pg) => idsProtocolo.has(pg.id) || /protocolo/i.test(titulo(pg)) || (!ehCoor(pg) && Object.values(pg.properties).some((p) => p.type === "relation" && /^(parent|item principal|item pai)/i.test(semAcento(Object.keys(pg.properties).find((k) => pg.properties[k] === p))) && p.relation.some((r) => naoCoor.has(r.id))));
     const projetos = new Map();
     // Projeto a partir de uma linha: o cartão mãe (COOR) ou, sem ele, a própria linha da disciplina (ex.: projetos só de Incêndio)
     const novoProjeto = (pg) => {
